@@ -1,18 +1,29 @@
 import { fileURLToPath, URL } from 'node:url'
-
+import tailwindcss from '@tailwindcss/vite'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [
-    vue(),
-    vueDevTools(),
-  ],
+  plugins: [vue(), vueDevTools(), tailwindcss()],
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
+  },
+  optimizeDeps: {
+    include: ['vue'],
+  },
+  define: {
+    'process.env': {},
+  },
+  build: {
+    emptyOutDir: true,
+    sourcemap: false,
+    modulePreload: { polyfill: false },
+    cssCodeSplit: true,
+    minify: 'esbuild',
+    chunkSizeWarningLimit: 2048,
   },
 })
