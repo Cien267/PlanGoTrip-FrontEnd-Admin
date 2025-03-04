@@ -1,15 +1,13 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { RouterLink, RouterView } from 'vue-router'
-import ColorPicker from 'primevue/colorpicker'
-
-const color = ref()
+import { RouterView } from 'vue-router'
 </script>
 
 <template>
-  <ColorPicker v-model="color" inline />
-
-  <RouterView />
+  <router-view v-slot="{ Component, route }">
+    <transition :name="(route.meta.transition as string) || ''">
+      <component :is="Component" />
+    </transition>
+  </router-view>
 </template>
 
 <style scoped></style>
