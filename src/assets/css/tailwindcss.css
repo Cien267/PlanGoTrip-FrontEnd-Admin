@@ -1,1 +1,3 @@
 @import 'tailwindcss';
+@import 'tailwindcss-primeui';
+@custom-variant dark (&:where(.plangotrip-app-dark, .plangotrip-app-dark *));

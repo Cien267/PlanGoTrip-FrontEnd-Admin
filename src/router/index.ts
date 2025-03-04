@@ -24,18 +24,20 @@ const router = createRouter({
       path: '/home',
       name: ROUTER_NAME_LIST.HOME_PAGE,
       component: HomePage,
-      // meta: { requiresAuth: true },
+      meta: { requiresAuth: true },
     },
     { path: `/:notFound(.*)`, component: NotFoundPage },
   ],
 })
 
 router.beforeEach((to, _, next) => {
-  if (to.meta.requiresAuth && !token.value) {
-    next({ name: 'login' })
-  } else {
-    next()
+  if (to.name === ROUTER_NAME_LIST.LOGIN_PAGE && token.value) {
+    return next({ name: ROUTER_NAME_LIST.HOME_PAGE })
   }
+  if (to.meta.requiresAuth && !token.value) {
+    return next({ name: ROUTER_NAME_LIST.LOGIN_PAGE })
+  }
+  next()
 })
 
 export default router

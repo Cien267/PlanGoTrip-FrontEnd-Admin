@@ -15,6 +15,9 @@ app.use(router)
 app.use(PrimeVue, {
   theme: {
     preset: Aura,
+    options: {
+      darkModeSelector: '.plangotrip-app-dark',
+    },
   },
 })
 app.mount('#app')

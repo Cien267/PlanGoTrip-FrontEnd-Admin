@@ -23,7 +23,7 @@ export async function get(url: string, config = {}): Promise<AxiosResponse> {
  */
 export async function post(
   url: string,
-  data: any,
+  data: any = {},
   config = {},
 ): Promise<AxiosResponse> {
   return Http.post(toValue(url), data, config)

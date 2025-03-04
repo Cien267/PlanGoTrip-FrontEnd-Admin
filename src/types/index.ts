@@ -1,6 +1,6 @@
 type DataLoginType = {
   email: string
-  passWord: string
+  password: string
 }
 
 type HttpMethodType = 'GET' | 'POST' | 'DELETE' | 'PUT' | (string & {})

@@ -10,8 +10,14 @@ import Message from 'primevue/message'
 import Password from 'primevue/password'
 import Button from 'primevue/button'
 import Card from 'primevue/card'
+import ThemeSwitch from '@/components/common/ThemeSwitch.vue'
+import EntireScreenLoader from '@/components/common/EntireScreenLoader.vue'
+import { useAuth } from '@/composables/useAuth'
+import { useRouter } from 'vue-router'
+import { ROUTER_NAME_LIST } from '@/constants/routers'
 
 const toast = useToast()
+const router = useRouter()
 
 const initialValues = ref({
   email: '',
@@ -33,27 +39,38 @@ const resolver = zodResolver(
       .refine(value => /[A-Z]/.test(value), {
         message: 'Phải có ít nhất 1 ký tự viết hoa.',
       })
-      .refine(value => /d/.test(value), {
+      .refine(value => /\d/.test(value), {
         message: 'Phải có ít nhất 1 số.',
       }),
   }),
 )
 
-const onFormSubmit = (e: any) => {
-  if (e.valid) {
-    toast.add({
-      severity: 'success',
-      summary: 'Form is submitted.',
-      life: 3000,
-    })
+const { error, loading, login } = useAuth()
+const onFormSubmit = async () => {
+  try {
+    await login(initialValues.value)
+    if (error.value) {
+      toast.add({
+        severity: 'error',
+        summary: 'Thông tin đăng nhập không hợp lệ',
+        life: 3000,
+      })
+      return
+    }
+    router.push({ name: ROUTER_NAME_LIST.HOME_PAGE })
+  } catch (e: any) {
+    console.error(e)
   }
 }
 </script>
 
 <template>
-  <div class="min-h-screen flex flex-col items-center justify-center">
+  <div class="min-h-screen flex flex-col items-center justify-start pt-14">
+    <entire-screen-loader v-if="loading"></entire-screen-loader>
+    <theme-switch class="fixed top-6 right-6"></theme-switch>
+    <img src="/src/assets/images/logo.png" alt="logo" class="plangotrip-logo" />
     <div class="card flex justify-center">
-      <Toast />
+      <Toast position="bottom-right" />
       <Card class="">
         <template #title>Đăng nhập</template>
         <template #content>
@@ -65,7 +82,13 @@ const onFormSubmit = (e: any) => {
             class="flex flex-col gap-10 w-full sm:w-96 mt-10"
           >
             <div class="flex flex-col gap-1">
-              <InputText name="email" type="text" placeholder="Email" fluid />
+              <InputText
+                name="email"
+                type="text"
+                placeholder="Email"
+                fluid
+                v-model="initialValues.email"
+              />
               <Message
                 v-if="$form.email?.invalid"
                 severity="error"
@@ -81,6 +104,7 @@ const onFormSubmit = (e: any) => {
                 :feedback="false"
                 toggleMask
                 fluid
+                v-model="initialValues.password"
               />
               <Message
                 v-if="$form.password?.invalid"
