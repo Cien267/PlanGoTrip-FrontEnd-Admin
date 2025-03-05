@@ -22,7 +22,7 @@ export const useAuth = () => {
         credentials,
       )
       token.value = response.data.access_token
-      Cookies.set(COOKIES_TOKEN_NAME, token.value, { expires: 1 })
+      Cookies.set(COOKIES_TOKEN_NAME, token.value, { expires: 0.1 })
     } catch (err: any) {
       error.value = err
       console.error('Login failed:', err)
@@ -31,13 +31,16 @@ export const useAuth = () => {
     }
   }
 
-  const logout = async (id: string | number) => {
+  const logout = async () => {
     loading.value = true
     error.value = null
 
-    const urlLogOut = `${URL_LOGOUT}/${id}`
     try {
-      await post(urlLogOut)
+      await post(
+        URL_LOGOUT,
+        {},
+        { headers: { Authorization: `Bearer ${token.value}` } },
+      )
       token.value = null
       Cookies.remove(COOKIES_TOKEN_NAME)
     } catch (err: any) {
