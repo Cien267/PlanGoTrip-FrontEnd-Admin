@@ -1,9 +1,3 @@
-.plangotrip-layout > .dock-window {
-  width: 100%;
-  position: fixed;
-  bottom: 20px;
-}
-
 .plangotrip-layout .p-menubar {
   padding: 0;
   border-radius: 0;
@@ -14,7 +8,7 @@
   padding: 2px 0;
 }
 
-.plangotrip-container {
+.plangotrip-home {
   background-image: url(https://primefaces.org/cdn/primevue/images/dock/window.jpg);
   background-repeat: no-repeat;
   background-size: cover;
