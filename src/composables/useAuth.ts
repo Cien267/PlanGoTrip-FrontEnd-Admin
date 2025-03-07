@@ -3,10 +3,9 @@ import type { DataLoginType } from '@/types'
 import Cookies from 'js-cookie'
 import { post } from '@/helpers/axios'
 import type { AxiosResponse, AxiosError } from 'axios'
+import { URL_LOGIN, URL_LOGOUT } from '@/constants/url'
 
 const COOKIES_TOKEN_NAME = 'plangotrip-user-token'
-const URL_LOGIN = '/api/admin/login'
-const URL_LOGOUT = '/api/admin/logout'
 
 const token: Ref<string | null> = ref(Cookies.get(COOKIES_TOKEN_NAME) || null)
 export const useAuth = () => {

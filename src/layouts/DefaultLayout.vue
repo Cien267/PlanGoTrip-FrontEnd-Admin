@@ -13,7 +13,7 @@ const showMenu = ref(false)
 </script>
 
 <template>
-  <div :class="classContainer">
+  <div :class="['plangotrip-container', classContainer]">
     <div class="card plangotrip-layout">
       <nav-bar></nav-bar>
       <slot></slot>

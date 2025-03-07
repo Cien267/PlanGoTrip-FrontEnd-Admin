@@ -5,12 +5,14 @@ import { ref } from 'vue'
 import { useAuth } from '@/composables/useAuth'
 import EntireScreenLoader from '@/components/common/EntireScreenLoader.vue'
 import { useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 import { ROUTER_NAME_LIST } from '@/constants/routers'
 import { useToast } from 'primevue/usetoast'
 import Toast from 'primevue/toast'
 
 const { error, loading, logout } = useAuth()
 const router = useRouter()
+const route = useRoute()
 const toast = useToast()
 const items = ref([
   {
@@ -40,6 +42,10 @@ const items = ref([
     ],
   },
 ])
+
+const navigateToHomePage = () => {
+  router.push({ name: ROUTER_NAME_LIST.HOME_PAGE })
+}
 </script>
 
 <template>
@@ -47,7 +53,11 @@ const items = ref([
   <Toast position="bottom-right" />
   <Menubar :model="[]" class="navbar-header-menu">
     <template #start>
-      <i class="pi pi-apple px-2"></i>
+      <i
+        class="pi pi-apple px-2 cursor-pointer"
+        @click="navigateToHomePage"
+      ></i>
+      <span class="text-sm font-medium">{{ route.name }}</span>
     </template>
     <template #end>
       <theme-switch class="!px-4 inline-block"></theme-switch>

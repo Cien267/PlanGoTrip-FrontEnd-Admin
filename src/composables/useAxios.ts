@@ -1,27 +1,19 @@
-import { ref, watchEffect } from 'vue'
+import { ref } from 'vue'
 import type { HttpMethodType } from '@/types'
 import { get, post, put, del } from '@/helpers/axios'
 import type { AxiosRequestConfig, AxiosError } from 'axios'
 
-/**
- * A Vue composable for making HTTP requests with Axios.
- * @param {string} url - The API endpoint URL
- * @param {HttpMethodType} [method='GET'] - The HTTP method to use (GET, POST, PUT, DELETE)
- * @param {any} [payload=null] - The data to send with POST or PUT requests
- * @param {AxiosRequestConfig} [config={}] - Optional Axios request configuration
- * @returns {{ data: Ref<any>, error: Ref<AxiosError|null>, loading: Ref<boolean>, refetch: () => void }}
- */
-export const useAxios = (
-  url: string,
-  method: HttpMethodType = 'GET',
-  payload: any = {},
-  config: AxiosRequestConfig = {},
-) => {
+export const useAxios = () => {
   const data = ref(null)
   const error = ref<AxiosError | null>(null)
-  const loading = ref(false)
+  const loading = ref<boolean>(false)
 
-  const fetchData = async () => {
+  const fetchData = async (
+    url: string,
+    method: HttpMethodType = 'GET',
+    payload: any = {},
+    config: AxiosRequestConfig = {},
+  ) => {
     data.value = null
     error.value = null
     loading.value = true
@@ -52,11 +44,5 @@ export const useAxios = (
     }
   }
 
-  watchEffect(() => {
-    fetchData()
-  })
-
-  const refetch = () => fetchData()
-
-  return { data, error, loading, refetch }
+  return { data, error, loading, fetchData }
 }

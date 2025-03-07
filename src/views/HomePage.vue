@@ -37,7 +37,6 @@ const items = ref([
 
 <template>
   <DefaultLayout>
-    <h1>Home Page</h1>
     <input
       type="file"
       class="hidden"

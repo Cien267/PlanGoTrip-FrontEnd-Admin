@@ -1,68 +1,45 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useToast } from 'primevue/usetoast'
 import Dock from 'primevue/dock'
+import { useRouter } from 'vue-router'
+import { ROUTER_NAME_LIST } from '@/constants/routers'
 
-const displayFinder = ref(false)
-const displayTerminal = ref(false)
-const displayPhotos = ref(false)
-const toast = useToast()
+const router = useRouter()
 const items = ref([
   {
     label: 'Finder',
     icon: 'https://primefaces.org/cdn/primevue//images/dock/finder.svg',
-    command: () => {
-      displayFinder.value = true
-    },
+    command: () => {},
   },
   {
     label: 'Terminal',
     icon: 'https://primefaces.org/cdn/primevue//images/dock/terminal.svg',
-    command: () => {
-      displayTerminal.value = true
-    },
+    command: () => {},
   },
   {
     label: 'App Store',
     icon: 'https://primefaces.org/cdn/primevue//images/dock/appstore.svg',
-    command: () => {
-      toast.add({
-        severity: 'error',
-        summary: 'An unexpected error occurred while signing in.',
-        detail: 'UNTRUSTED_CERT_TITLE',
-        group: 'tc',
-        life: 3000,
-      })
-    },
+    command: () => {},
   },
   {
     label: 'Safari',
     icon: 'https://primefaces.org/cdn/primevue//images/dock/safari.svg',
-    command: () => {
-      toast.add({
-        severity: 'warn',
-        summary: 'Safari has stopped working',
-        group: 'tc',
-        life: 3000,
-      })
-    },
+    command: () => {},
   },
   {
     label: 'Photos',
     icon: 'https://primefaces.org/cdn/primevue//images/dock/photos.svg',
-    command: () => {
-      displayPhotos.value = true
-    },
+    command: () => {},
   },
   {
     label: 'GitHub',
     icon: 'https://primefaces.org/cdn/primevue//images/dock/github.svg',
   },
   {
-    label: 'Trash',
-    icon: 'https://primefaces.org/cdn/primevue//images/dock/trash.png',
+    label: 'User',
+    icon: '../../src/assets/images/android.svg',
     command: () => {
-      toast.add({ severity: 'info', summary: 'Empty Trash', life: 3000 })
+      router.push({ name: ROUTER_NAME_LIST.USER_PAGE })
     },
   },
 ])
@@ -88,7 +65,7 @@ const onDockItemClick = (event: any, item: any) => {
           <img
             :alt="item.label as string"
             :src="item.icon"
-            style="width: 100%"
+            class="w-full cursor-pointer"
           />
         </a>
       </template>
