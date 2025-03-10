@@ -5,4 +5,10 @@ type DataLoginType = {
 
 type HttpMethodType = 'GET' | 'POST' | 'DELETE' | 'PUT' | (string & {})
 
-export type { DataLoginType, HttpMethodType }
+type AdminType = {
+  id: number
+  name: string
+  email: string
+}
+
+export type { DataLoginType, HttpMethodType, AdminType }

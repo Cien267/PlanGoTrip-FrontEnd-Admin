@@ -1,30 +1,95 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, inject, watch, type Ref } from 'vue'
 import { FilterMatchMode } from '@primevue/core/api'
 import { useAxios } from '@/composables/useAxios'
-import { URL_GET_USERS } from '@/constants/url'
+import { URL_GET_USERS, URL_DELETE_USER } from '@/constants/url'
 import InputText from 'primevue/inputtext'
 import Column from 'primevue/column'
 import DataTable from 'primevue/datatable'
 import Button from 'primevue/button'
+import type { AdminType } from '@/types'
+import CreateOrUpdateModal from './CreateOrUpdateModal.vue'
+import { useToast } from 'primevue/usetoast'
+const toast = useToast()
+import ConfirmPopup from 'primevue/confirmpopup'
+import { useConfirm } from 'primevue/useconfirm'
 
 const filters = ref({
   name: { value: null, matchMode: FilterMatchMode.CONTAINS },
   email: { value: null, matchMode: FilterMatchMode.CONTAINS },
 })
 
-const users = ref()
+// list users
+const users = ref<AdminType[]>()
 const { data, error, loading, fetchData } = useAxios()
-onMounted(async () => {
+const getUserList = async () => {
   await fetchData(URL_GET_USERS, 'GET')
-  if (error) {
+  if (error.value) {
+    toast.add({
+      severity: 'error',
+      summary: 'Có lỗi xảy ra khi láy danh sách user',
+      life: 3000,
+    })
     return
   }
-  users.value = data.value
+  users.value = data.value?.data || []
+}
+
+onMounted(async () => {
+  await getUserList()
+})
+
+// update user
+
+// delete user
+const confirm = useConfirm()
+const removeUser = (event: any, user: AdminType) => {
+  confirm.require({
+    target: event.currentTarget,
+    message: `Bạn có chắc chắn muốn xóa user ${user.name}?`,
+    icon: 'pi pi-exclamation-triangle',
+    rejectProps: {
+      label: 'Hủy',
+      severity: 'secondary',
+      outlined: true,
+    },
+    acceptProps: {
+      label: 'Xóa',
+      severity: 'danger',
+    },
+    accept: async () => {
+      await fetchData(`${URL_DELETE_USER}/${user.id}`, 'DELETE')
+      if (error.value) {
+        toast.add({
+          severity: 'error',
+          summary: `Có lỗi xảy ra khi xóa user ${user.name}`,
+          life: 3000,
+        })
+        return
+      }
+      toast.add({
+        severity: 'success',
+        summary: `Xóa thành công user ${user.name}`,
+        life: 3000,
+      })
+      switchRefetchingFlag()
+    },
+  })
+}
+
+// refetch users
+const refetchingFlag = inject<Ref<boolean>>('refetchingFlag', ref(false))
+const switchRefetchingFlag = inject<() => void>(
+  'switchRefetchingFlag',
+  () => {},
+)
+watch(refetchingFlag, async () => {
+  await getUserList()
 })
 </script>
 
 <template>
+  <ConfirmPopup></ConfirmPopup>
   <div class="card flex justify-center items-center">
     <DataTable
       v-model:filters="filters"
@@ -65,18 +130,14 @@ onMounted(async () => {
         </template>
       </Column>
       <Column header="Action" class="flex gap-4 min-w-10">
-        <template #body="{}">
-          <Button
-            icon="pi pi-pen-to-square"
-            @click="{}"
-            severity="info"
-            class="p-2"
-            size="small"
-            rounded
-          ></Button>
+        <template #body="{ data }">
+          <create-or-update-modal
+            :type="'update'"
+            :user="data"
+          ></create-or-update-modal>
           <Button
             icon="pi pi-trash"
-            @click="{}"
+            @click="removeUser($event, data)"
             severity="danger"
             class="p-2"
             size="small"

@@ -4,7 +4,7 @@ import { get, post, put, del } from '@/helpers/axios'
 import type { AxiosRequestConfig, AxiosError } from 'axios'
 
 export const useAxios = () => {
-  const data = ref(null)
+  const data = ref<any>(null)
   const error = ref<AxiosError | null>(null)
   const loading = ref<boolean>(false)
 
