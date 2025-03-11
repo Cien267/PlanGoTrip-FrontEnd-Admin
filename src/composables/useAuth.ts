@@ -1,5 +1,5 @@
 import { ref, type Ref } from 'vue'
-import type { DataLoginType } from '@/types'
+import type { DataLoginType, AdminType } from '@/types'
 import Cookies from 'js-cookie'
 import { post } from '@/helpers/axios'
 import type { AxiosResponse, AxiosError } from 'axios'
@@ -8,6 +8,7 @@ import { URL_LOGIN, URL_LOGOUT } from '@/constants/url'
 const COOKIES_TOKEN_NAME = 'plangotrip-user-token'
 
 const token: Ref<string | null> = ref(Cookies.get(COOKIES_TOKEN_NAME) || null)
+const user = ref<AdminType | null>(null)
 export const useAuth = () => {
   const error = ref<AxiosError | null>(null)
   const loading = ref(false)
@@ -16,11 +17,10 @@ export const useAuth = () => {
     loading.value = true
     error.value = null
     try {
-      const response: AxiosResponse<{ access_token: string }> = await post(
-        URL_LOGIN,
-        credentials,
-      )
+      const response: AxiosResponse<{ access_token: string; user: AdminType }> =
+        await post(URL_LOGIN, credentials)
       token.value = response.data.access_token
+      user.value = response.data.user
       Cookies.set(COOKIES_TOKEN_NAME, token.value, { expires: 0.1 })
     } catch (err: any) {
       error.value = err

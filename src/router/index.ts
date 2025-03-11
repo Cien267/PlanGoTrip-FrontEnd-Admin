@@ -5,6 +5,8 @@ import { useAuth } from '@/composables/useAuth'
 import LoginPage from '@/views/LoginPage.vue'
 import HomePage from '@/views/HomePage.vue'
 import UserPage from '@/views/UserPage.vue'
+import VehiclePage from '@/views/VehiclePage.vue'
+import DestinationPage from '@/views/DestinationPage.vue'
 
 const { token } = useAuth()
 
@@ -25,6 +27,18 @@ const router = createRouter({
       path: '/home',
       name: ROUTER_NAME_LIST.HOME_PAGE,
       component: HomePage,
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/destinations',
+      name: ROUTER_NAME_LIST.DESTINATION_PAGE,
+      component: DestinationPage,
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/vehicles',
+      name: ROUTER_NAME_LIST.VEHICLE_PAGE,
+      component: VehiclePage,
       meta: { requiresAuth: true },
     },
     {

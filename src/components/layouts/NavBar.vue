@@ -53,10 +53,7 @@ const navigateToHomePage = () => {
   <Toast position="bottom-right" />
   <Menubar :model="[]" class="navbar-header-menu">
     <template #start>
-      <i
-        class="pi pi-apple px-2 cursor-pointer"
-        @click="navigateToHomePage"
-      ></i>
+      <i class="pi pi-home px-2 cursor-pointer" @click="navigateToHomePage"></i>
       <span class="text-sm font-medium">{{ route.name }}</span>
     </template>
     <template #end>

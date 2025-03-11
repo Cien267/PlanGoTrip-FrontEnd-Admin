@@ -7,37 +7,22 @@ import { ROUTER_NAME_LIST } from '@/constants/routers'
 const router = useRouter()
 const items = ref([
   {
-    label: 'Finder',
-    icon: 'https://primefaces.org/cdn/primevue//images/dock/finder.svg',
-    command: () => {},
+    label: 'Điểm đến',
+    class: 'pi pi-map-marker',
+    command: () => {
+      router.push({ name: ROUTER_NAME_LIST.DESTINATION_PAGE })
+    },
   },
   {
-    label: 'Terminal',
-    icon: 'https://primefaces.org/cdn/primevue//images/dock/terminal.svg',
-    command: () => {},
+    label: 'Quản lý phương tiện',
+    class: 'pi pi-car',
+    command: () => {
+      router.push({ name: ROUTER_NAME_LIST.VEHICLE_PAGE })
+    },
   },
   {
-    label: 'App Store',
-    icon: 'https://primefaces.org/cdn/primevue//images/dock/appstore.svg',
-    command: () => {},
-  },
-  {
-    label: 'Safari',
-    icon: 'https://primefaces.org/cdn/primevue//images/dock/safari.svg',
-    command: () => {},
-  },
-  {
-    label: 'Photos',
-    icon: 'https://primefaces.org/cdn/primevue//images/dock/photos.svg',
-    command: () => {},
-  },
-  {
-    label: 'GitHub',
-    icon: 'https://primefaces.org/cdn/primevue//images/dock/github.svg',
-  },
-  {
-    label: 'User',
-    icon: '../../src/assets/images/android.svg',
+    label: 'Quản lý người dùng',
+    class: 'pi pi-users',
     command: () => {
       router.push({ name: ROUTER_NAME_LIST.USER_PAGE })
     },
@@ -59,14 +44,10 @@ const onDockItemClick = (event: any, item: any) => {
         <a
           v-tooltip.top="item.label"
           href="#"
-          class="p-dock-item-link"
+          class="shadow-sm p-dock-item-link rounded-lg bg-white dark:!bg-slate-700 flex items-center justify-center !cursor-pointer"
           @click="onDockItemClick($event, item)"
         >
-          <img
-            :alt="item.label as string"
-            :src="item.icon"
-            class="w-full cursor-pointer"
-          />
+          <i :class="item.class" class="!text-2xl"></i>
         </a>
       </template>
     </Dock>

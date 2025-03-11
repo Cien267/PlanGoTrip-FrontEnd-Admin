@@ -11,4 +11,12 @@ type AdminType = {
   email: string
 }
 
-export type { DataLoginType, HttpMethodType, AdminType }
+type VehicleType = {
+  id: number
+  name: string
+  image: string
+  description: string
+  fuel_consumption: string | number
+}
+
+export type { DataLoginType, HttpMethodType, AdminType, VehicleType }
