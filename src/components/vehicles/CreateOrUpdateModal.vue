@@ -99,7 +99,7 @@ const buttonSeverity = computed(() => {
   return type === 'create' ? 'primary' : 'info'
 })
 const buttonLabel = computed(() => {
-  return type === 'create' ? 'Thêm vehicle' : ''
+  return type === 'create' ? 'Thêm phương tiện' : ''
 })
 </script>
 
@@ -114,7 +114,7 @@ const buttonLabel = computed(() => {
   ></Button>
   <Dialog v-model:visible="visible" modal :header="headerTitle">
     <div class="flex items-center gap-4 mb-4">
-      <label for="username" class="font-semibold w-24 w-[28%]">Name</label>
+      <label for="username" class="font-semibold w-24 w-[28%]">Tên</label>
       <InputText
         id="name"
         class="flex-auto w-[72%]"
@@ -138,6 +138,8 @@ const buttonLabel = computed(() => {
       <InputNumber
         id="fuel_consumption"
         v-model="dataVehicle.fuel_consumption"
+        :minFractionDigits="2"
+        :maxFractionDigits="2"
         class="flex-auto w-[72%]"
         inputId="integeronly"
       />

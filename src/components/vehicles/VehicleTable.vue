@@ -16,7 +16,6 @@ import { useConfirm } from 'primevue/useconfirm'
 
 const filters = ref({
   name: { value: null, matchMode: FilterMatchMode.CONTAINS },
-  fuel_consumption: { value: null, matchMode: FilterMatchMode.CONTAINS },
 })
 
 // list vehicles
@@ -138,13 +137,7 @@ watch(refetchingFlag, async () => {
           }}</span>
           <span class="text-sm text-gray-400 pl-2">lít/100km</span>
         </template>
-        <template #filter="{ filterModel, filterCallback }">
-          <InputText
-            v-model="filterModel.value"
-            type="text"
-            @input="filterCallback()"
-          />
-        </template>
+        <template #filter=""> </template>
       </Column>
       <Column header="Action" class="flex gap-4 min-w-10">
         <template #body="{ data }">
