@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { zodResolver } from '@primevue/forms/resolvers/zod'
 import { z } from 'zod'
 import { useToast } from 'primevue/usetoast'
@@ -15,7 +15,12 @@ import EntireScreenLoader from '@/components/common/EntireScreenLoader.vue'
 import { useAuth } from '@/composables/useAuth'
 import { useRouter } from 'vue-router'
 import { ROUTER_NAME_LIST } from '@/constants/routers'
+import { useTheme } from '@/composables/useTheme'
+const { toggleTheme } = useTheme()
 
+onMounted(() => {
+  toggleTheme()
+})
 const toast = useToast()
 const router = useRouter()
 
@@ -30,18 +35,7 @@ const resolver = zodResolver(
       .string()
       .min(1, { message: 'Thiếu thông tin email.' })
       .email('Email không hợp lệ.'),
-    password: z
-      .string()
-      .min(3, { message: 'Ít nhất 3 ký tự.' })
-      .refine(value => /[a-z]/.test(value), {
-        message: 'Phải có ít nhất 1 ký tự viết thường.',
-      })
-      .refine(value => /[A-Z]/.test(value), {
-        message: 'Phải có ít nhất 1 ký tự viết hoa.',
-      })
-      .refine(value => /\d/.test(value), {
-        message: 'Phải có ít nhất 1 số.',
-      }),
+    password: z.string().min(3, { message: 'Ít nhất 3 ký tự.' }),
   }),
 )
 
