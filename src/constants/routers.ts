@@ -4,4 +4,6 @@ export const ROUTER_NAME_LIST = {
   USER_PAGE: 'users',
   VEHICLE_PAGE: 'vehicles',
   DESTINATION_PAGE: 'destination',
+  LIST_DESTINATION_PAGE: 'list-destination',
+  CREATE_DESTINATION_PAGE: 'create-destination',
 }

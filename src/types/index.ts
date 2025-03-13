@@ -19,4 +19,28 @@ type VehicleType = {
   fuel_consumption: string | number
 }
 
-export type { DataLoginType, HttpMethodType, AdminType, VehicleType }
+type DesImageType = {
+  id: number
+  url: string
+  caption: string
+  order?: number
+}
+
+type DestinationType = {
+  id: number
+  name: string
+  province_id: number
+  district_id: number
+  ward_id: number
+  full_address: string
+  description: string
+  images: DesImageType[]
+}
+
+export type {
+  DataLoginType,
+  HttpMethodType,
+  AdminType,
+  VehicleType,
+  DestinationType,
+}

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
+import DestinationsList from '@/components/destinations/DestinationsList.vue'
 import { provide, ref } from 'vue'
 
 const refetchingFlag = ref(false)
@@ -11,5 +12,8 @@ provide('switchRefetchingFlag', switchRefetchingFlag)
 </script>
 
 <template>
-  <DefaultLayout> destination </DefaultLayout>
+  <DefaultLayout>
+    <destinations-list></destinations-list>
+    <router-view></router-view>
+  </DefaultLayout>
 </template>

@@ -13,3 +13,6 @@ export const URL_GET_VEHICLES = '/api/admin/vehicles'
 export const URL_CREATE_VEHICLE = '/api/admin/vehicles/store'
 export const URL_UPDATE_VEHICLE = '/api/admin/vehicles/update'
 export const URL_DELETE_VEHICLE = '/api/admin/vehicles/delete'
+
+// destinations
+export const URL_GET_DESTINATIONS = '/api/admin/destinations'

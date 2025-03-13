@@ -6,7 +6,8 @@ import LoginPage from '@/views/LoginPage.vue'
 import HomePage from '@/views/HomePage.vue'
 import UserPage from '@/views/UserPage.vue'
 import VehiclePage from '@/views/VehiclePage.vue'
-import DestinationPage from '@/views/DestinationPage.vue'
+import DestinationPage from '@/views/destinations/DestinationPage.vue'
+import CreateDestinationPage from '@/views/destinations/CreateDestinationPage.vue'
 
 const { token } = useAuth()
 
@@ -31,8 +32,24 @@ const router = createRouter({
     },
     {
       path: '/destinations',
-      name: ROUTER_NAME_LIST.DESTINATION_PAGE,
-      component: DestinationPage,
+      meta: { requiresAuth: true },
+      children: [
+        {
+          path: 'list',
+          name: ROUTER_NAME_LIST.LIST_DESTINATION_PAGE,
+          component: DestinationPage,
+        },
+        {
+          path: 'create',
+          name: ROUTER_NAME_LIST.CREATE_DESTINATION_PAGE,
+          component: CreateDestinationPage,
+        },
+      ],
+    },
+    {
+      path: '/destinations/create',
+      name: ROUTER_NAME_LIST.CREATE_DESTINATION_PAGE,
+      component: CreateDestinationPage,
       meta: { requiresAuth: true },
     },
     {

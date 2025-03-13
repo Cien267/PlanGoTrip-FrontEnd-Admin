@@ -10,7 +10,7 @@ const items = ref([
     label: 'Điểm đến',
     class: 'pi pi-map-marker',
     command: () => {
-      router.push({ name: ROUTER_NAME_LIST.DESTINATION_PAGE })
+      router.push({ name: ROUTER_NAME_LIST.LIST_DESTINATION_PAGE })
     },
   },
   {
