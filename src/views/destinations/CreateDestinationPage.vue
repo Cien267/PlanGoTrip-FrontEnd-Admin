@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import DestinationForm from '@/components/destinations/DestinationForm.vue'
+import DestinationElement from '@/components/destinations/DestinationElement.vue'
 import { provide, ref } from 'vue'
 import Button from 'primevue/button'
+import Divider from 'primevue/divider'
 
 const refetchingFlag = ref(false)
 const switchRefetchingFlag = () => {
@@ -16,6 +18,8 @@ provide('switchRefetchingFlag', switchRefetchingFlag)
   <DefaultLayout>
     <div class="p-10">
       <destination-form></destination-form>
+      <Divider type="dashed" />
+      <destination-element></destination-element>
     </div>
     <Teleport to="body">
       <Button

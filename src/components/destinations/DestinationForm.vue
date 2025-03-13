@@ -4,6 +4,8 @@ import Avatar from 'primevue/avatar'
 import InputText from 'primevue/inputtext'
 import { reactive } from 'vue'
 import FileUpload from 'primevue/fileupload'
+import Select from 'primevue/select'
+import { ref } from 'vue'
 
 const dataDestination = reactive({
   name: '',
@@ -13,6 +15,10 @@ const dataDestination = reactive({
   full_address: '',
   description: '',
 })
+const selectedLocation = ref(null)
+const locations = ref([])
+const selectedWard = ref(null)
+const wards = ref([])
 </script>
 <template>
   <div class="card destination-create-form">
@@ -32,27 +38,60 @@ const dataDestination = reactive({
               class="flex-auto w-[72%]"
               autocomplete="off"
               v-model="dataDestination.name"
+              placeholder="Nhập tên điểm đến"
             />
           </div>
           <div class="flex items-center gap-1 mb-2 w-full">
             <label for="name" class="font-semibold w-[28%]"
               >Tỉnh/TP - Quận/Huyện</label
             >
-            <InputText
-              id="name"
-              class="flex-auto w-[72%]"
-              autocomplete="off"
-              v-model="dataDestination.name"
-            />
+            <Select
+              v-model="selectedLocation"
+              :options="locations"
+              filter
+              optionLabel="name"
+              placeholder="Chọn Tỉnh/TP - Quận/Huyện"
+              class="w-[72%]"
+            >
+              <template #value="slotProps">
+                <div v-if="slotProps.value" class="flex items-center">
+                  <div>{{ slotProps.value.name }}</div>
+                </div>
+                <span v-else>
+                  {{ slotProps.placeholder }}
+                </span>
+              </template>
+              <template #option="slotProps">
+                <div class="flex items-center">
+                  <div>{{ slotProps.option.name }}</div>
+                </div>
+              </template>
+            </Select>
           </div>
           <div class="flex items-center gap-1 mb-2 w-full">
             <label for="name" class="font-semibold w-[28%]">Phường/Xã</label>
-            <InputText
-              id="name"
-              class="flex-auto w-[72%]"
-              autocomplete="off"
-              v-model="dataDestination.name"
-            />
+            <Select
+              v-model="selectedWard"
+              :options="wards"
+              filter
+              optionLabel="name"
+              placeholder="Chọn Phường/Xã"
+              class="w-[72%]"
+            >
+              <template #value="slotProps">
+                <div v-if="slotProps.value" class="flex items-center">
+                  <div>{{ slotProps.value.name }}</div>
+                </div>
+                <span v-else>
+                  {{ slotProps.placeholder }}
+                </span>
+              </template>
+              <template #option="slotProps">
+                <div class="flex items-center">
+                  <div>{{ slotProps.option.name }}</div>
+                </div>
+              </template>
+            </Select>
           </div>
           <div class="flex items-center gap-1 mb-2 w-full">
             <label for="name" class="font-semibold w-[28%]"
@@ -63,6 +102,7 @@ const dataDestination = reactive({
               class="flex-auto w-[72%]"
               autocomplete="off"
               v-model="dataDestination.name"
+              placeholder="Nhập địa chỉ"
             />
           </div>
         </div>
@@ -93,7 +133,7 @@ const dataDestination = reactive({
 <style>
 .destination-create-form .p-fileupload-content {
   max-height: 10rem;
-  width: 36rem;
+  max-width: 36rem;
   overflow-x: hidden;
   overflow-y: auto;
 }

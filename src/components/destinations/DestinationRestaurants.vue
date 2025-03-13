@@ -1,0 +1,1 @@
+<template>restaurants</template>
