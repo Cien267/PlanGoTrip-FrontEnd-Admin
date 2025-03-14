@@ -5,6 +5,7 @@ import InputText from 'primevue/inputtext'
 import { reactive } from 'vue'
 import FileUpload from 'primevue/fileupload'
 import Select from 'primevue/select'
+import Textarea from 'primevue/textarea'
 import { ref } from 'vue'
 
 const dataDestination = reactive({
@@ -101,8 +102,17 @@ const wards = ref([])
               id="name"
               class="flex-auto w-[72%]"
               autocomplete="off"
-              v-model="dataDestination.name"
+              v-model="dataDestination.full_address"
               placeholder="Nhập địa chỉ"
+            />
+          </div>
+          <div class="flex items-center gap-1 mb-2 w-full">
+            <label for="name" class="font-semibold w-[28%]">Mô tả</label>
+            <Textarea
+              v-model="dataDestination.description"
+              autoResize
+              rows="3"
+              class="w-[72%]"
             />
           </div>
         </div>

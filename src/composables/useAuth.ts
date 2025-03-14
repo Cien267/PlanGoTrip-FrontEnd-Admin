@@ -21,7 +21,7 @@ export const useAuth = () => {
         await post(URL_LOGIN, credentials)
       token.value = response.data.access_token
       user.value = response.data.user
-      Cookies.set(COOKIES_TOKEN_NAME, token.value, { expires: 0.1 })
+      Cookies.set(COOKIES_TOKEN_NAME, token.value, { expires: 0.5 })
     } catch (err: any) {
       error.value = err
       console.error('Login failed:', err)

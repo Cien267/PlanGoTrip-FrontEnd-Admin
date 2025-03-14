@@ -1,0 +1,86 @@
+export const DESTINATION_ATTRACTION_CATEGORIES = [
+  {
+    id: 1,
+    code: 'nature',
+    name: 'Thiên nhiên',
+    icon: '/src/assets/images/destination/destination-attraction-categories/nature.svg',
+  },
+  {
+    id: 2,
+    code: 'culture-history',
+    name: 'Văn hóa - Lịch sử',
+    icon: '/src/assets/images/destination/destination-attraction-categories/culture.svg',
+  },
+  {
+    id: 3,
+    code: 'adventure',
+    name: 'Khám phá',
+    icon: '/src/assets/images/destination/destination-attraction-categories/adventure.svg',
+  },
+  {
+    id: 4,
+    code: 'shopping',
+    name: 'Mua sắm',
+    icon: '/src/assets/images/destination/destination-attraction-categories/shopping.svg',
+  },
+  {
+    id: 5,
+    code: 'entertainment',
+    name: 'Vui chơi giải trí',
+    icon: '/src/assets/images/destination/destination-attraction-categories/entertainment.svg',
+  },
+  {
+    id: 6,
+    code: 'activity',
+    name: 'Hoạt động',
+    icon: '/src/assets/images/destination/destination-attraction-categories/activity.svg',
+  },
+  {
+    id: 7,
+    code: 'relaxation',
+    name: 'Thư giãn',
+    icon: '/src/assets/images/destination/destination-attraction-categories/relaxation.svg',
+  },
+  {
+    id: 8,
+    code: 'urban-exploration',
+    name: 'Khám phá đô thị',
+    icon: '/src/assets/images/destination/destination-attraction-categories/urban.svg',
+  },
+  {
+    id: 9,
+    code: 'local-experience',
+    name: 'Trải nghiệm bản sắc địa phương',
+    icon: '/src/assets/images/destination/destination-attraction-categories/local.svg',
+  },
+  {
+    id: 10,
+    code: 'sport',
+    name: 'Thể thao',
+    icon: '/src/assets/images/destination/destination-attraction-categories/sport.svg',
+  },
+  {
+    id: 11,
+    code: 'unique',
+    name: 'Độc lạ',
+    icon: '/src/assets/images/destination/destination-attraction-categories/unique.svg',
+  },
+  {
+    id: 12,
+    code: 'spiritual',
+    name: 'Tâm linh',
+    icon: '/src/assets/images/destination/destination-attraction-categories/spiritual.svg',
+  },
+  {
+    id: 13,
+    code: 'festival-event',
+    name: 'Lễ hội & sự kiện',
+    icon: '/src/assets/images/destination/destination-attraction-categories/festival.svg',
+  },
+  {
+    id: 14,
+    code: 'other',
+    name: 'Khác',
+    icon: '/src/assets/images/destination/destination-attraction-categories/other.svg',
+  },
+]

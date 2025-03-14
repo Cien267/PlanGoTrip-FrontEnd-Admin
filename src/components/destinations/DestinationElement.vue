@@ -18,7 +18,7 @@ import DestinationRestaurants from './DestinationRestaurants.vue'
       <TabList>
         <Tab value="attractions" as="div" class="flex items-center gap-2">
           <Avatar image="/src/assets/images/circus.svg" shape="circle" />
-          <span class="font-bold whitespace-nowrap">Điểm đến thu hút</span>
+          <span class="font-bold whitespace-nowrap">Điểm tham quan</span>
         </Tab>
         <Tab value="accommodations" as="div" class="flex items-center gap-2">
           <Avatar image="/src/assets/images/hotel.svg" shape="circle" />
