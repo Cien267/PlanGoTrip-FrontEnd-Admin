@@ -343,7 +343,45 @@ onMounted(async () => {
 <template>
   <entire-screen-loader v-if="loading"></entire-screen-loader>
   <div class="flex flex-col justify-center items-center gap-10 p-10">
-    <div class="flex items-center gap-4">
+    <div class="flex flex-col items-center gap-4">
+      <div class="w-full flex justify-center items-center gap-4">
+        <router-link to="/destinations/create" type="button">
+          <Button
+            icon="pi pi-plus"
+            severity="primary"
+            size="small"
+            class="p-2"
+            label="Thêm điểm đến"
+          ></Button>
+        </router-link>
+        <router-link to="/destinations/attraction-categories" type="button">
+          <Button
+            severity="info"
+            size="small"
+            class="p-2"
+            raised
+            label="Quản lý Phân loại Điểm tham quan"
+          ></Button>
+        </router-link>
+        <router-link to="/destinations/accommodation-categories" type="button">
+          <Button
+            severity="info"
+            size="small"
+            class="p-2"
+            raised
+            label="Quản lý Phân loại Nơi trú"
+          ></Button>
+        </router-link>
+        <router-link to="/destinations/restaurant-categories" type="button">
+          <Button
+            severity="info"
+            size="small"
+            class="p-2"
+            raised
+            label="Quản lý Phân loại Điểm ăn uống"
+          ></Button>
+        </router-link>
+      </div>
       <div class="relative">
         <i
           class="pi pi-search absolute left-2 top-1/2 -translate-y-1/2 text-blue-500"
@@ -354,15 +392,6 @@ onMounted(async () => {
           v-model="searchKeyword"
         />
       </div>
-      <router-link to="/destinations/create" type="button">
-        <Button
-          icon="pi pi-plus"
-          severity="primary"
-          size="small"
-          class="p-2"
-          label="Thêm điểm đến"
-        ></Button>
-      </router-link>
     </div>
     <div class="py-10 flex flex-wrap justify-center items-center gap-4">
       <template

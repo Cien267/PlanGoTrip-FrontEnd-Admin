@@ -25,3 +25,22 @@ html:not(.plangotrip-app-dark) .p-dock-list-container {
   background: rgba(210, 210, 210, 0.1);
   border: 1px solid rgb(241, 233, 233);
 }
+
+.upload-multiple-images .p-fileupload-content {
+  max-height: 10rem;
+  max-width: 36rem;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.upload-multiple-images .p-fileupload-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+/* .upload-multiple-images .p-fileupload-upload-button,
+.upload-multiple-images .p-fileupload-cancel-button {
+  display: none;
+} */
+.p-inputtext.p-component.p-inputnumber-input {
+  width: 100%;
+}

@@ -8,6 +8,9 @@ import UserPage from '@/views/UserPage.vue'
 import VehiclePage from '@/views/VehiclePage.vue'
 import DestinationPage from '@/views/destinations/DestinationPage.vue'
 import CreateDestinationPage from '@/views/destinations/CreateDestinationPage.vue'
+import AttractionCategoriesPage from '@/views/destinations/AttractionCategoriesPage.vue'
+import AccommodationCategoriesPage from '@/views/destinations/AccommodationCategoriesPage.vue'
+import RestaurantCategoriesPage from '@/views/destinations/RestaurantCategoriesPage.vue'
 
 const { token } = useAuth()
 
@@ -43,6 +46,21 @@ const router = createRouter({
           path: 'create',
           name: ROUTER_NAME_LIST.CREATE_DESTINATION_PAGE,
           component: CreateDestinationPage,
+        },
+        {
+          path: 'attraction-categories',
+          name: ROUTER_NAME_LIST.ATTRACTION_CATEGORIES_PAGE,
+          component: AttractionCategoriesPage,
+        },
+        {
+          path: 'accommodation-categories',
+          name: ROUTER_NAME_LIST.ACCOMMODATION_CATEGORIES_PAGE,
+          component: AccommodationCategoriesPage,
+        },
+        {
+          path: 'restaurant-categories',
+          name: ROUTER_NAME_LIST.RESTAURANT_CATEGORIES_PAGE,
+          component: RestaurantCategoriesPage,
         },
       ],
     },

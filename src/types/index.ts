@@ -20,14 +20,14 @@ type VehicleType = {
 }
 
 type DesImageType = {
-  id: number
+  id?: number
   url: string
-  caption: string
+  caption?: string
   order?: number
 }
 
 type DestinationType = {
-  id: number
+  id?: number
   name: string
   province_id: number
   district_id: number
@@ -37,10 +37,93 @@ type DestinationType = {
   images: DesImageType[]
 }
 
+type ResponseUploadType = {
+  url: string
+  original_name: string
+}
+
+type AttractionType = {
+  uuid: string
+  name: string
+  selectedAttractionCategory: string
+  phone: number
+  description: string
+  address: string
+  openingHour: number
+  closingHour: number
+  estimatedDuration: number
+  selectedOpeningPeriod: {
+    name: string
+    value: string
+  }
+  selectedClosingPeriod: {
+    name: string
+    value: string
+  }
+  startPriceRange: number
+  endPriceRange: number
+  websiteUrl: string
+  images: string[]
+}
+
+type AccommodationType = {
+  uuid: string
+  name: string
+  selectedAccommodationCategory: string
+  phone: number
+  description: string
+  address: string
+  rooms: number
+  checkInTime: number
+  checkOutTime: number
+  checkInPeriod: {
+    name: string
+    value: string
+  }
+  checkOutPeriod: {
+    name: string
+    value: string
+  }
+  pricePerNight: number
+  rating: number
+  websiteUrl: string
+  amenities: string
+  images: string[]
+}
+
+type RestaurantType = {
+  uuid: string
+  name: string
+  selectedRestaurantCategory: string
+  phone: number
+  description: string
+  address: string
+  openingTime: number
+  closingTime: number
+  openingPeriod: {
+    name: string
+    value: string
+  }
+  closingPeriod: {
+    name: string
+    value: string
+  }
+  startPriceRange: number
+  endPriceRange: number
+  rating: number
+  websiteUrl: string
+  menu: string
+  images: string[]
+}
+
 export type {
   DataLoginType,
   HttpMethodType,
   AdminType,
   VehicleType,
   DestinationType,
+  ResponseUploadType,
+  AttractionType,
+  AccommodationType,
+  RestaurantType,
 }

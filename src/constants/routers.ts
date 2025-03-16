@@ -6,4 +6,7 @@ export const ROUTER_NAME_LIST = {
   DESTINATION_PAGE: 'destination',
   LIST_DESTINATION_PAGE: 'list-destination',
   CREATE_DESTINATION_PAGE: 'create-destination',
+  ATTRACTION_CATEGORIES_PAGE: 'attraction-categories',
+  ACCOMMODATION_CATEGORIES_PAGE: 'accommodation-categories',
+  RESTAURANT_CATEGORIES_PAGE: 'restaurant-categories',
 }
