@@ -116,6 +116,30 @@ type RestaurantType = {
   images: string[]
 }
 
+type DestinationAttractionCategoryType = {
+  id: number
+  name: string
+  code: string
+  description: string
+  image: string
+}
+
+type DestinationAccommodationCategoryType = {
+  id: number
+  name: string
+  code: string
+  description: string
+  image: string
+}
+
+type DestinationRestaurantCategoryType = {
+  id: number
+  name: string
+  code: string
+  description: string
+  image: string
+}
+
 export type {
   DataLoginType,
   HttpMethodType,
@@ -126,4 +150,7 @@ export type {
   AttractionType,
   AccommodationType,
   RestaurantType,
+  DestinationAttractionCategoryType,
+  DestinationAccommodationCategoryType,
+  DestinationRestaurantCategoryType,
 }

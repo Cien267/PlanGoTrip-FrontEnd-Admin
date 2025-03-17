@@ -4,15 +4,38 @@ import InputText from 'primevue/inputtext'
 import Select from 'primevue/select'
 import Textarea from 'primevue/textarea'
 import InputNumber from 'primevue/inputnumber'
-import CustomFileUpload from '../common/CustomFileUpload.vue'
-import {
-  DESTINATION_ATTRACTION_CATEGORIES,
-  DAY_PERIODS,
-} from '@/constants/destinations'
-import { ref, watch } from 'vue'
+import CustomFileUpload from '../../common/CustomFileUpload.vue'
+import { DAY_PERIODS } from '@/constants/destinations'
+import { ref, watch, onMounted } from 'vue'
 import { v4 as uuidv4 } from 'uuid'
 import type { AttractionType } from '@/types'
 import Badge from 'primevue/badge'
+import { useToast } from 'primevue/usetoast'
+const toast = useToast()
+import { useAxios } from '@/composables/useAxios'
+import { URL_GET_ATTRACTION_CATEGORIES } from '@/constants/url'
+
+const { data, error, fetchData } = useAxios()
+const attractionCategories = ref()
+
+const getListCategories = async () => {
+  await fetchData(URL_GET_ATTRACTION_CATEGORIES, 'GET')
+
+  if (error.value) {
+    console.error(error.value)
+    toast.add({
+      severity: 'error',
+      summary: 'Có lỗi xảy ra khi láy danh sách phân loại',
+      life: 3000,
+    })
+    return
+  }
+  attractionCategories.value = data.value.data || []
+}
+
+onMounted(async () => {
+  await getListCategories()
+})
 
 const attractionsList = ref<AttractionType[]>([
   {
@@ -112,7 +135,7 @@ watch(
           <label for="name" class="font-semibold w-[28%]">Phân loại</label>
           <Select
             v-model="attraction.selectedAttractionCategory"
-            :options="DESTINATION_ATTRACTION_CATEGORIES"
+            :options="attractionCategories"
             filter
             optionLabel="name"
             placeholder="Chọn"
@@ -121,8 +144,9 @@ watch(
             <template #value="slotProps">
               <div v-if="slotProps.value" class="flex items-center">
                 <img
+                  v-if="slotProps.value.image"
                   :alt="slotProps.value.name"
-                  :src="slotProps.value.icon"
+                  :src="slotProps.value.image"
                   class="mr-2"
                   style="width: 18px"
                 />
@@ -135,8 +159,9 @@ watch(
             <template #option="slotProps">
               <div class="flex items-center">
                 <img
+                  v-if="slotProps.option.image"
                   :alt="slotProps.option.name"
-                  :src="slotProps.option.icon"
+                  :src="slotProps.option.image"
                   class="mr-2"
                   style="width: 18px"
                 />

@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
+import AttractionCategoryCreate from '@/components/destinations/attractions/AttractionCategoryCreate.vue'
+import AttractionCategoriesTable from '@/components/destinations/attractions/AttractionCategoriesTable.vue'
 import { provide, ref } from 'vue'
 
 const refetchingFlag = ref(false)
@@ -11,5 +13,8 @@ provide('switchRefetchingFlag', switchRefetchingFlag)
 </script>
 
 <template>
-  <DefaultLayout> AttractionCategoriesPage </DefaultLayout>
+  <DefaultLayout>
+    <AttractionCategoryCreate></AttractionCategoryCreate>
+    <AttractionCategoriesTable></AttractionCategoriesTable>
+  </DefaultLayout>
 </template>

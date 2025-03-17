@@ -37,6 +37,7 @@ export const useAxios = () => {
           throw new Error(`Unsupported HTTP method: ${method}`)
       }
       data.value = response.data
+      return response.data
     } catch (err: any) {
       error.value = err
     } finally {

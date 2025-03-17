@@ -5,9 +5,9 @@ import Tab from 'primevue/tab'
 import TabPanels from 'primevue/tabpanels'
 import TabPanel from 'primevue/tabpanel'
 import Avatar from 'primevue/avatar'
-import DestinationAccommodations from './DestinationAccommodations.vue'
-import DestinationAttractions from './DestinationAttractions.vue'
-import DestinationRestaurants from './DestinationRestaurants.vue'
+import DestinationAccommodations from './accommodations/DestinationAccommodations.vue'
+import DestinationAttractions from './attractions/DestinationAttractions.vue'
+import DestinationRestaurants from './restaurants/DestinationRestaurants.vue'
 </script>
 
 <template>
