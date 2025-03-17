@@ -6,14 +6,13 @@ import Textarea from 'primevue/textarea'
 import InputNumber from 'primevue/inputnumber'
 import CustomFileUpload from '../../common/CustomFileUpload.vue'
 import { DAY_PERIODS } from '@/constants/destinations'
-import { ref, watch, onMounted } from 'vue'
-import { v4 as uuidv4 } from 'uuid'
-import type { AccommodationType } from '@/types'
+import { ref, onMounted } from 'vue'
 import Badge from 'primevue/badge'
 import { useToast } from 'primevue/usetoast'
 const toast = useToast()
 import { useAxios } from '@/composables/useAxios'
 import { URL_GET_ACCOMMODATION_CATEGORIES } from '@/constants/url'
+import { useCreateOrUpdateDestination } from '@/composables/useCreateOrUpdateDestination'
 
 const { data, error, fetchData } = useAxios()
 const accommodationCategories = ref()
@@ -37,80 +36,12 @@ onMounted(async () => {
   await getListCategories()
 })
 
-const accommodationsList = ref<AccommodationType[]>([
-  {
-    uuid: uuidv4(),
-    name: '',
-    selectedAccommodationCategory: '',
-    phone: 0,
-    description: '',
-    address: '',
-    rooms: 0,
-    checkInTime: 0,
-    checkOutTime: 0,
-    checkInPeriod: {
-      name: 'AM',
-      value: 'am',
-    },
-    checkOutPeriod: {
-      name: 'AM',
-      value: 'am',
-    },
-    pricePerNight: 0,
-    rating: 0,
-    websiteUrl: '',
-    amenities: '',
-    images: [],
-  },
-])
-
-const addAttraction = () => {
-  accommodationsList.value.push({
-    uuid: uuidv4(),
-    name: '',
-    selectedAccommodationCategory: '',
-    phone: 0,
-    description: '',
-    address: '',
-    rooms: 0,
-    checkInTime: 0,
-    checkOutTime: 0,
-    checkInPeriod: {
-      name: 'AM',
-      value: 'am',
-    },
-    checkOutPeriod: {
-      name: 'AM',
-      value: 'am',
-    },
-    pricePerNight: 0,
-    rating: 0,
-    websiteUrl: '',
-    amenities: '',
-    images: [],
-  })
-}
-const removeAccommodation = (uuid: string) => {
-  const index = accommodationsList.value.findIndex(item => item.uuid === uuid)
-  if (index !== -1) {
-    accommodationsList.value.splice(index, 1)
-  }
-}
-
-const uploadFile = (images: any[], uuid: string) => {
-  const index = accommodationsList.value.findIndex(item => item.uuid === uuid)
-  if (index !== -1) {
-    accommodationsList.value[index].images = images
-  }
-}
-
-watch(
-  () => accommodationsList.value,
-  () => {
-    console.log('========', accommodationsList.value)
-  },
-  { deep: true },
-)
+const {
+  accommodationsList,
+  addAccommodation,
+  removeAccommodation,
+  uploadFileAccommodation,
+} = useCreateOrUpdateDestination()
 </script>
 
 <template>
@@ -305,7 +236,9 @@ watch(
         <div class="flex items-center gap-1 mb-2 w-full upload-multiple-images">
           <label for="image" class="font-semibold w-[28%]">Ảnh</label>
           <CustomFileUpload
-            @upload-file="files => uploadFile(files, accommodation.uuid)"
+            @upload-file="
+              files => uploadFileAccommodation(files, accommodation.uuid)
+            "
           ></CustomFileUpload>
         </div>
       </div>
@@ -331,6 +264,6 @@ watch(
     variant="outlined"
     size="small"
     class="mt-4"
-    @click="addAttraction"
+    @click="addAccommodation"
   />
 </template>

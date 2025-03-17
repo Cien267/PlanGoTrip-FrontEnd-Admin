@@ -19,22 +19,14 @@ type VehicleType = {
   fuel_consumption: string | number
 }
 
-type DesImageType = {
-  id?: number
-  url: string
-  caption?: string
-  order?: number
-}
-
 type DestinationType = {
   id?: number
   name: string
-  province_id: number
-  district_id: number
+  location_id: number
   ward_id: number
   full_address: string
   description: string
-  images: DesImageType[]
+  images: string[]
 }
 
 type ResponseUploadType = {
@@ -45,7 +37,7 @@ type ResponseUploadType = {
 type AttractionType = {
   uuid: string
   name: string
-  selectedAttractionCategory: string
+  selectedAttractionCategory: DestinationAttractionCategoryType
   phone: number
   description: string
   address: string
@@ -69,7 +61,7 @@ type AttractionType = {
 type AccommodationType = {
   uuid: string
   name: string
-  selectedAccommodationCategory: string
+  selectedAccommodationCategory: DestinationAccommodationCategoryType
   phone: number
   description: string
   address: string
@@ -94,7 +86,7 @@ type AccommodationType = {
 type RestaurantType = {
   uuid: string
   name: string
-  selectedRestaurantCategory: string
+  selectedRestaurantCategory: DestinationRestaurantCategoryType
   phone: number
   description: string
   address: string

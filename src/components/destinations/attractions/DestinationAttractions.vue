@@ -6,14 +6,13 @@ import Textarea from 'primevue/textarea'
 import InputNumber from 'primevue/inputnumber'
 import CustomFileUpload from '../../common/CustomFileUpload.vue'
 import { DAY_PERIODS } from '@/constants/destinations'
-import { ref, watch, onMounted } from 'vue'
-import { v4 as uuidv4 } from 'uuid'
-import type { AttractionType } from '@/types'
+import { ref, onMounted } from 'vue'
 import Badge from 'primevue/badge'
 import { useToast } from 'primevue/usetoast'
 const toast = useToast()
 import { useAxios } from '@/composables/useAxios'
 import { URL_GET_ATTRACTION_CATEGORIES } from '@/constants/url'
+import { useCreateOrUpdateDestination } from '@/composables/useCreateOrUpdateDestination'
 
 const { data, error, fetchData } = useAxios()
 const attractionCategories = ref()
@@ -37,78 +36,12 @@ onMounted(async () => {
   await getListCategories()
 })
 
-const attractionsList = ref<AttractionType[]>([
-  {
-    uuid: uuidv4(),
-    name: '',
-    selectedAttractionCategory: '',
-    phone: 0,
-    description: '',
-    address: '',
-    openingHour: 0,
-    closingHour: 0,
-    estimatedDuration: 0,
-    selectedOpeningPeriod: {
-      name: 'AM',
-      value: 'am',
-    },
-    selectedClosingPeriod: {
-      name: 'PM',
-      value: 'pm',
-    },
-    startPriceRange: 0,
-    endPriceRange: 0,
-    websiteUrl: '',
-    images: [],
-  },
-])
-
-const addAttraction = () => {
-  attractionsList.value.push({
-    uuid: uuidv4(),
-    name: '',
-    selectedAttractionCategory: '',
-    phone: 0,
-    description: '',
-    address: '',
-    openingHour: 0,
-    closingHour: 0,
-    estimatedDuration: 0,
-    selectedOpeningPeriod: {
-      name: 'AM',
-      value: 'am',
-    },
-    selectedClosingPeriod: {
-      name: 'PM',
-      value: 'pm',
-    },
-    startPriceRange: 0,
-    endPriceRange: 0,
-    websiteUrl: '',
-    images: [],
-  })
-}
-const removeAttraction = (uuid: string) => {
-  const index = attractionsList.value.findIndex(item => item.uuid === uuid)
-  if (index !== -1) {
-    attractionsList.value.splice(index, 1)
-  }
-}
-
-const uploadFile = (images: any[], uuid: string) => {
-  const index = attractionsList.value.findIndex(item => item.uuid === uuid)
-  if (index !== -1) {
-    attractionsList.value[index].images = images
-  }
-}
-
-watch(
-  () => attractionsList.value,
-  () => {
-    console.log('========', attractionsList.value)
-  },
-  { deep: true },
-)
+const {
+  attractionsList,
+  addAttraction,
+  removeAttraction,
+  uploadFileAttraction,
+} = useCreateOrUpdateDestination()
 </script>
 
 <template>
@@ -296,7 +229,7 @@ watch(
         <div class="flex items-center gap-1 mb-2 w-full upload-multiple-images">
           <label for="image" class="font-semibold w-[28%]">Ảnh</label>
           <CustomFileUpload
-            @upload-file="files => uploadFile(files, attraction.uuid)"
+            @upload-file="files => uploadFileAttraction(files, attraction.uuid)"
           ></CustomFileUpload>
         </div>
       </div>

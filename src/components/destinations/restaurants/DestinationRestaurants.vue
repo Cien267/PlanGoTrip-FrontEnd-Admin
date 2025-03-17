@@ -6,14 +6,13 @@ import Textarea from 'primevue/textarea'
 import InputNumber from 'primevue/inputnumber'
 import CustomFileUpload from '../../common/CustomFileUpload.vue'
 import { DAY_PERIODS } from '@/constants/destinations'
-import { ref, watch, onMounted } from 'vue'
-import { v4 as uuidv4 } from 'uuid'
-import type { RestaurantType } from '@/types'
+import { ref, onMounted } from 'vue'
 import Badge from 'primevue/badge'
 import { useToast } from 'primevue/usetoast'
 const toast = useToast()
 import { useAxios } from '@/composables/useAxios'
 import { URL_GET_RESTAURANT_CATEGORIES } from '@/constants/url'
+import { useCreateOrUpdateDestination } from '@/composables/useCreateOrUpdateDestination'
 
 const { data, error, fetchData } = useAxios()
 const restaurantCategories = ref()
@@ -36,80 +35,13 @@ const getListCategories = async () => {
 onMounted(async () => {
   await getListCategories()
 })
-const restaurantsList = ref<RestaurantType[]>([
-  {
-    uuid: uuidv4(),
-    name: '',
-    selectedRestaurantCategory: '',
-    phone: 0,
-    description: '',
-    address: '',
-    openingTime: 0,
-    closingTime: 0,
-    openingPeriod: {
-      name: 'AM',
-      value: 'am',
-    },
-    closingPeriod: {
-      name: 'AM',
-      value: 'am',
-    },
-    startPriceRange: 0,
-    endPriceRange: 0,
-    rating: 0,
-    websiteUrl: '',
-    menu: '',
-    images: [],
-  },
-])
 
-const addAttraction = () => {
-  restaurantsList.value.push({
-    uuid: uuidv4(),
-    name: '',
-    selectedRestaurantCategory: '',
-    phone: 0,
-    description: '',
-    address: '',
-    openingTime: 0,
-    closingTime: 0,
-    openingPeriod: {
-      name: 'AM',
-      value: 'am',
-    },
-    closingPeriod: {
-      name: 'AM',
-      value: 'am',
-    },
-    startPriceRange: 0,
-    endPriceRange: 0,
-    rating: 0,
-    websiteUrl: '',
-    menu: '',
-    images: [],
-  })
-}
-const removeRestaurant = (uuid: string) => {
-  const index = restaurantsList.value.findIndex(item => item.uuid === uuid)
-  if (index !== -1) {
-    restaurantsList.value.splice(index, 1)
-  }
-}
-
-const uploadFile = (images: any[], uuid: string) => {
-  const index = restaurantsList.value.findIndex(item => item.uuid === uuid)
-  if (index !== -1) {
-    restaurantsList.value[index].images = images
-  }
-}
-
-watch(
-  () => restaurantsList.value,
-  () => {
-    console.log('========', restaurantsList.value)
-  },
-  { deep: true },
-)
+const {
+  restaurantsList,
+  addRestaurant,
+  removeRestaurant,
+  uploadFileRestaurant,
+} = useCreateOrUpdateDestination()
 </script>
 
 <template>
@@ -304,7 +236,7 @@ watch(
         <div class="flex items-center gap-1 mb-2 w-full upload-multiple-images">
           <label for="image" class="font-semibold w-[28%]">Ảnh</label>
           <CustomFileUpload
-            @upload-file="files => uploadFile(files, restaurant.uuid)"
+            @upload-file="files => uploadFileRestaurant(files, restaurant.uuid)"
           ></CustomFileUpload>
         </div>
       </div>
@@ -330,6 +262,6 @@ watch(
     variant="outlined"
     size="small"
     class="mt-4"
-    @click="addAttraction"
+    @click="addRestaurant"
   />
 </template>

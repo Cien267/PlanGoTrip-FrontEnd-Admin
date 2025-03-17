@@ -2,30 +2,19 @@
 import Fieldset from 'primevue/fieldset'
 import Avatar from 'primevue/avatar'
 import InputText from 'primevue/inputtext'
-import { reactive } from 'vue'
 import Select from 'primevue/select'
 import Textarea from 'primevue/textarea'
 import { ref } from 'vue'
 import CustomFileUpload from '../common/CustomFileUpload.vue'
-import type { DestinationType } from '@/types'
+import { useCreateOrUpdateDestination } from '@/composables/useCreateOrUpdateDestination'
 
-const dataDestination = reactive<DestinationType>({
-  name: '',
-  province_id: 0,
-  district_id: 0,
-  ward_id: 0,
-  full_address: '',
-  description: '',
-  images: [],
-})
+const { dataDestination, uploadFileDestination } =
+  useCreateOrUpdateDestination()
+
 const selectedLocation = ref(null)
 const locations = ref([])
 const selectedWard = ref(null)
 const wards = ref([])
-
-const uploadFile = (images: any[]) => {
-  dataDestination.images = images
-}
 </script>
 <template>
   <div class="card destination-create-form shadow-sm">
@@ -125,7 +114,9 @@ const uploadFile = (images: any[]) => {
         <div
           class="flex justify-center items-center w-1/2 upload-multiple-images"
         >
-          <CustomFileUpload @upload-file="uploadFile"></CustomFileUpload>
+          <CustomFileUpload
+            @upload-file="uploadFileDestination"
+          ></CustomFileUpload>
         </div>
       </div>
     </Fieldset>
