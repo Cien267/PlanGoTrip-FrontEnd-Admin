@@ -22,13 +22,7 @@ const attractionsList = ref<AttractionType[]>([
   {
     uuid: uuidv4(),
     name: '',
-    selectedAttractionCategory: {
-      id: 0,
-      name: '',
-      code: '',
-      description: '',
-      image: '',
-    },
+    selectedAttractionCategory: '' as any,
     phone: 0,
     description: '',
     address: '',
@@ -55,13 +49,7 @@ const accommodationsList = ref<AccommodationType[]>([
   {
     uuid: uuidv4(),
     name: '',
-    selectedAccommodationCategory: {
-      id: 0,
-      name: '',
-      code: '',
-      description: '',
-      image: '',
-    },
+    selectedAccommodationCategory: '' as any,
     phone: 0,
     description: '',
     address: '',
@@ -89,13 +77,7 @@ const restaurantsList = ref<RestaurantType[]>([
   {
     uuid: uuidv4(),
     name: '',
-    selectedRestaurantCategory: {
-      id: 0,
-      name: '',
-      code: '',
-      description: '',
-      image: '',
-    },
+    selectedRestaurantCategory: '' as any,
     phone: 0,
     description: '',
     address: '',
