@@ -10,7 +10,8 @@ import { v4 as uuidv4 } from 'uuid'
 // destination form
 const dataDestination = reactive<DestinationType>({
   name: '',
-  location_id: 0,
+  district_id: 0,
+  province_id: 0,
   ward_id: 0,
   full_address: '',
   description: '',
@@ -102,8 +103,11 @@ const restaurantsList = ref<RestaurantType[]>([
 
 export const useCreateOrUpdateDestination = () => {
   // destination form
-  const updateLocationDestination = (id: number) => {
-    dataDestination.location_id = id
+  const updateProvinceDestination = (id: number) => {
+    dataDestination.province_id = id
+  }
+  const updateDistrictDestination = (id: number) => {
+    dataDestination.district_id = id
   }
   const updateWardDestination = (id: number) => {
     dataDestination.ward_id = id
@@ -254,7 +258,8 @@ export const useCreateOrUpdateDestination = () => {
     // destination form
     dataDestination,
     uploadFileDestination,
-    updateLocationDestination,
+    updateProvinceDestination,
+    updateDistrictDestination,
     updateWardDestination,
 
     // attraction

@@ -1,123 +1,114 @@
 <script setup lang="ts">
 import OrganizationChart from 'primevue/organizationchart'
 import Drawer from 'primevue/drawer'
-import { ref } from 'vue'
+import { ref, shallowRef, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
+import { useAxios } from '@/composables/useAxios'
+import { useToast } from 'primevue/usetoast'
+import { URL_DETAIL_DESTINATION } from '@/constants/url'
+import { transform } from '@/transformers/destination/detailDestinationTransform'
+import type {
+  DetailAttractionType,
+  DetailAccommodationType,
+  DetailRestaurantType,
+} from '@/types'
+import DetailDestinationDrawer from '@/components/destinations/DetailDestinationDrawer.vue'
+import DetailAttractionDrawer from '@/components/destinations/attractions/DetailAttractionDrawer.vue'
+import DetailAccommodationDrawer from '@/components/destinations/accommodations/DetailAccommodationDrawer.vue'
+import DetailRestaurantDrawer from '@/components/destinations/restaurants/DetailRestaurantDrawer.vue'
+import EntireScreenLoader from '../common/EntireScreenLoader.vue'
 
-const data = ref({
-  key: '0',
-  type: 'destination',
-  styleClass:
-    'text-white rounded-lg shadow-lg cursor-pointer hover:!bg-sky-100',
-  data: {
-    image:
-      'https://i.pinimg.com/736x/aa/72/91/aa72913855f9e02a949a5c392b48299e.jpg',
-    name: 'Hang Kia',
-    address: 'Pà Cò, Hòa Bình',
-  },
-  children: [
-    {
-      key: '0_0',
-      type: 'element',
-      styleClass:
-        '!rounded-full shadow-lg cursor-pointer hover:!bg-[rgba(144,238,144,0.4)] text-white w-38 h-38',
-      data: {
-        image: '/src/assets/images/circus.svg',
-        name: 'Điểm tham quan',
-      },
-      children: [
-        {
-          name: 'Săn mây Hang Kia',
-          category: {
-            name: 'Thiên nhiên',
-            image:
-              '/src/assets/images/destination/destination-attraction-categories/nature.svg',
-          },
-          address: 'Hang Kia, Hòa Bình',
-          styleClass: 'text-white rounded-xl shadow-lg cursor-pointer',
-        },
-        {
-          name: 'Bản Thung Mài',
-          category: {
-            name: 'Trải nghiệm bản sắc địa phương',
-            image:
-              '/src/assets/images/destination/destination-attraction-categories/local.svg',
-          },
-          address: 'Hang Kia, Hòa Bình',
-          styleClass: 'text-white rounded-xl shadow-lg cursor-pointer',
-        },
-      ],
-    },
-    {
-      key: '0_1',
-      type: 'element',
-      styleClass:
-        '!rounded-full shadow-lg cursor-pointer hover:!bg-[rgba(255,200,150,0.4)] text-white w-38 h-38',
-      data: {
-        image: '/src/assets/images/hotel.svg',
-        name: 'Nơi trú',
-        title: 'CTO',
-      },
-      children: [
-        {
-          name: 'Vàng Lềnh Homestay',
-          category: {
-            name: 'homestay',
-            image:
-              '/src/assets/images/destination/destination-accommodation-categories/homestay.svg',
-          },
-          address: 'Hang Kia, Hòa Bình',
-          styleClass: 'text-white rounded-xl shadow-lg cursor-pointer',
-        },
-      ],
-    },
-    {
-      key: '0_2',
-      type: 'element',
-      styleClass:
-        '!rounded-full shadow-lg cursor-pointer hover:!bg-[rgba(173,216,230,0.4)] text-white w-38 h-38',
-      data: {
-        image: '/src/assets/images/restaurant.svg',
-        name: 'Điểm ăn uống',
-        title: 'CTO',
-      },
-      children: [
-        {
-          name: 'Chờ đêm Pà Cò',
-          category: {
-            name: 'Ẩm thực địa phương',
-            image:
-              '/src/assets/images/destination/destination-restaurant-categories/local.svg',
-          },
-          address: 'Hang Kia, Hòa Bình',
-          styleClass: 'text-white rounded-xl shadow-lg cursor-pointer',
-        },
-        {
-          name: 'Nhà hàng Sơn Nước',
-          category: {
-            name: 'Nhà hàng bình dân',
-            image:
-              '/src/assets/images/destination/destination-restaurant-categories/casual_dining.svg',
-          },
-          address: 'Hang Kia, Hòa Bình',
-          styleClass: 'text-white rounded-xl shadow-lg cursor-pointer',
-        },
-      ],
-    },
-  ],
+// fetching detail destination
+const destination = ref<any>(null)
+const route = useRoute()
+const toast = useToast()
+const { data, error, loading, fetchData } = useAxios()
+onMounted(async () => {
+  const desId = route.params.id || 0
+  if (desId) {
+    try {
+      await fetchData(`${URL_DETAIL_DESTINATION}${desId}`, 'GET')
+      if (error.value) {
+        console.error(error)
+        toast.add({
+          severity: 'error',
+          summary: 'Có lỗi xảy ra khi lấy thông tin chi tiết destination',
+          life: 3000,
+        })
+        return
+      }
+      destination.value = transform(data.value.data ?? {})
+      console.log('destination.value', destination.value)
+    } catch (e: any) {
+      console.error(e)
+      toast.add({
+        severity: 'error',
+        summary: 'Có lỗi xảy ra',
+        life: 3000,
+      })
+    }
+  }
 })
+
+// detail destination
 const visible = ref(false)
+const drawerHeader = ref('')
+const component = shallowRef()
+const dataDetail = ref()
+const showDetailDestination = () => {
+  dataDetail.value = destination.value.data
+  drawerHeader.value = destination.value.data?.name ?? ''
+  component.value = DetailDestinationDrawer
+  visible.value = true
+}
+
+// detail element
+const showDetailElement = (type: string, id: number) => {
+  let key = '0_0'
+  switch (type) {
+    case 'attraction':
+      component.value = DetailAttractionDrawer
+      key = '0_0'
+      break
+    case 'accommodation':
+      component.value = DetailAccommodationDrawer
+      key = '0_1'
+      break
+    case 'restaurant':
+      component.value = DetailRestaurantDrawer
+      key = '0_2'
+      break
+  }
+  const item = destination.value.children.find((item: any) => item.key === key)
+  if (item) {
+    dataDetail.value = item.children.find(
+      (
+        item:
+          | DetailAttractionType
+          | DetailAccommodationType
+          | DetailRestaurantType,
+      ) => item.id === id,
+    )
+    drawerHeader.value = dataDetail.value?.name ?? ''
+    visible.value = true
+  }
+}
 </script>
 <template>
-  <div class="flex justify-center items-center w-full h-[calc(100vh-30px)]">
-    <OrganizationChart :value="data as any" collapsible>
+  <entire-screen-loader v-if="loading"></entire-screen-loader>
+  <div
+    class="flex justify-center items-center w-full h-[calc(100vh-30px)]"
+    v-if="destination"
+  >
+    <OrganizationChart :value="destination as any" collapsible>
       <template #destination="slotProps">
         <div
           class="flex justify-center items-center gap-8 p-4"
-          @click="visible = true"
+          @click="showDetailDestination"
         >
           <img
             :alt="slotProps.node.data.name"
-            :src="slotProps.node.data.image"
+            :src="slotProps.node.data.images[0]"
             class="mb-4 w-28 h-28 rounded-lg"
           />
           <div class="flex flex-col items-center">
@@ -145,6 +136,7 @@ const visible = ref(false)
       <template #default="slotProps">
         <div
           class="div w-60 bg-white m-auto rounded-xl relative group p-2 z-0 overflow-hidden"
+          @click="showDetailElement(slotProps.node.type, slotProps.node.id)"
         >
           <div
             class="h-[7em] w-[7em] bg-[#9FE2BF] rounded-full absolute bottom-full -left-[3.5em] group-hover:scale-[550%] z-[-1] duration-[400ms]"
@@ -184,15 +176,10 @@ const visible = ref(false)
     </OrganizationChart>
     <Drawer
       v-model:visible="visible"
-      header="Drawer"
+      :header="drawerHeader"
       class="!w-full md:!w-80 lg:!w-1/2"
     >
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-        commodo consequat.
-      </p>
+      <component :is="component" :data="dataDetail"></component>
     </Drawer>
   </div>
 </template>

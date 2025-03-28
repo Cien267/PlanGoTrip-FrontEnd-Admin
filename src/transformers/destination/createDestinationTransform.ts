@@ -21,11 +21,12 @@ export const transform = (
   try {
     if (dataDestination) {
       dataRequest.destination.name = dataDestination.name ?? ''
-      dataRequest.destination.location_id = dataDestination.location_id ?? 0
+      dataRequest.destination.province_id = dataDestination.province_id ?? 0
+      dataRequest.destination.district_id = dataDestination.district_id ?? 0
       dataRequest.destination.ward_id = dataDestination.ward_id ?? 0
       dataRequest.destination.full_address = dataDestination.full_address ?? 0
       dataRequest.destination.description = dataDestination.description ?? ''
-      dataRequest.destination.images = dataDestination.images.map(
+      dataRequest.destination.images = (dataDestination.images as any).map(
         (item: string, index: number) => {
           return {
             image_url: item,

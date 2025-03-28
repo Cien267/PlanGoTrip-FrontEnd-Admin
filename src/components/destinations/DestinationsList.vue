@@ -6,322 +6,21 @@ import { useAxios } from '@/composables/useAxios'
 import { URL_GET_DESTINATIONS } from '@/constants/url'
 import { useToast } from 'primevue/usetoast'
 const toast = useToast()
-import type { DestinationType } from '@/types'
+import type { TransformedDestinationType } from '@/types'
 import Card from 'primevue/card'
 import Button from 'primevue/button'
-// import Galleria from 'primevue/galleria'
+import { transform } from '@/transformers/destination/listDestinationTransform'
 
-const searchKeyword = ref()
+const searchKeyword = ref('')
 
 // list destination
-const listDestinations = ref<DestinationType[]>([])
+const listDestinations = ref<TransformedDestinationType[]>([])
 const listFilteredDestinations = computed(() => {
-  // return listDestinations.value.filter((item: DestinationType) =>
-  //   item.name.includes(searchKeyword.value.trim()),
-  // )
-  return [
-    {
-      id: 1,
-      name: 'Hòa Bình',
-      province_id: 1,
-      district_id: 1,
-      ward_id: 1,
-      full_address: 'Hòa Bình, Việt Nam',
-      description: 'rất đẹp',
-      images: [
-        {
-          id: 1,
-          url: 'https://i.pinimg.com/736x/aa/72/91/aa72913855f9e02a949a5c392b48299e.jpg',
-          caption: 'Pà Cò',
-          order: 1,
-        },
-        {
-          id: 2,
-          url: 'https://i.pinimg.com/736x/4e/2d/c2/4e2dc228e370f0bba046f289da0719f6.jpg',
-          caption: 'Pà Cò',
-          order: 2,
-        },
-        {
-          id: 3,
-          url: 'https://i.pinimg.com/736x/29/38/4e/29384e0b1c1adbbd307c712496cf961d.jpg',
-          caption: 'Pà Cò',
-          order: 3,
-        },
-      ],
-    },
-    {
-      id: 2,
-      name: 'Hòa Bình',
-      province_id: 1,
-      district_id: 1,
-      ward_id: 1,
-      full_address: 'Hòa Bình, Việt Nam',
-      description: 'rất đẹp',
-      images: [
-        {
-          id: 1,
-          url: 'https://i.pinimg.com/736x/aa/72/91/aa72913855f9e02a949a5c392b48299e.jpg',
-          caption: 'Pà Cò',
-          order: 1,
-        },
-        {
-          id: 2,
-          url: 'https://i.pinimg.com/736x/4e/2d/c2/4e2dc228e370f0bba046f289da0719f6.jpg',
-          caption: 'Pà Cò',
-          order: 2,
-        },
-        {
-          id: 3,
-          url: 'https://i.pinimg.com/736x/29/38/4e/29384e0b1c1adbbd307c712496cf961d.jpg',
-          caption: 'Pà Cò',
-          order: 3,
-        },
-      ],
-    },
-    {
-      id: 3,
-      name: 'Hòa Bình',
-      province_id: 1,
-      district_id: 1,
-      ward_id: 1,
-      full_address: 'Hòa Bình, Việt Nam',
-      description: 'rất đẹp',
-      images: [
-        {
-          id: 1,
-          url: 'https://i.pinimg.com/736x/aa/72/91/aa72913855f9e02a949a5c392b48299e.jpg',
-          caption: 'Pà Cò',
-          order: 1,
-        },
-        {
-          id: 2,
-          url: 'https://i.pinimg.com/736x/4e/2d/c2/4e2dc228e370f0bba046f289da0719f6.jpg',
-          caption: 'Pà Cò',
-          order: 2,
-        },
-        {
-          id: 3,
-          url: 'https://i.pinimg.com/736x/29/38/4e/29384e0b1c1adbbd307c712496cf961d.jpg',
-          caption: 'Pà Cò',
-          order: 3,
-        },
-      ],
-    },
-    {
-      id: 4,
-      name: 'Hòa Bình',
-      province_id: 1,
-      district_id: 1,
-      ward_id: 1,
-      full_address: 'Hòa Bình, Việt Nam',
-      description: 'rất đẹp',
-      images: [
-        {
-          id: 1,
-          url: 'https://i.pinimg.com/736x/aa/72/91/aa72913855f9e02a949a5c392b48299e.jpg',
-          caption: 'Pà Cò',
-          order: 1,
-        },
-        {
-          id: 2,
-          url: 'https://i.pinimg.com/736x/4e/2d/c2/4e2dc228e370f0bba046f289da0719f6.jpg',
-          caption: 'Pà Cò',
-          order: 2,
-        },
-        {
-          id: 3,
-          url: 'https://i.pinimg.com/736x/29/38/4e/29384e0b1c1adbbd307c712496cf961d.jpg',
-          caption: 'Pà Cò',
-          order: 3,
-        },
-      ],
-    },
-    {
-      id: 5,
-      name: 'Hòa Bình',
-      province_id: 1,
-      district_id: 1,
-      ward_id: 1,
-      full_address: 'Hòa Bình, Việt Nam',
-      description: 'rất đẹp',
-      images: [
-        {
-          id: 1,
-          url: 'https://i.pinimg.com/736x/aa/72/91/aa72913855f9e02a949a5c392b48299e.jpg',
-          caption: 'Pà Cò',
-          order: 1,
-        },
-        {
-          id: 2,
-          url: 'https://i.pinimg.com/736x/4e/2d/c2/4e2dc228e370f0bba046f289da0719f6.jpg',
-          caption: 'Pà Cò',
-          order: 2,
-        },
-        {
-          id: 3,
-          url: 'https://i.pinimg.com/736x/29/38/4e/29384e0b1c1adbbd307c712496cf961d.jpg',
-          caption: 'Pà Cò',
-          order: 3,
-        },
-      ],
-    },
-    {
-      id: 6,
-      name: 'Hòa Bình',
-      province_id: 1,
-      district_id: 1,
-      ward_id: 1,
-      full_address: 'Hòa Bình, Việt Nam',
-      description: 'rất đẹp',
-      images: [
-        {
-          id: 1,
-          url: 'https://i.pinimg.com/736x/aa/72/91/aa72913855f9e02a949a5c392b48299e.jpg',
-          caption: 'Pà Cò',
-          order: 1,
-        },
-        {
-          id: 2,
-          url: 'https://i.pinimg.com/736x/4e/2d/c2/4e2dc228e370f0bba046f289da0719f6.jpg',
-          caption: 'Pà Cò',
-          order: 2,
-        },
-        {
-          id: 3,
-          url: 'https://i.pinimg.com/736x/29/38/4e/29384e0b1c1adbbd307c712496cf961d.jpg',
-          caption: 'Pà Cò',
-          order: 3,
-        },
-      ],
-    },
-    {
-      id: 7,
-      name: 'Hòa Bình',
-      province_id: 1,
-      district_id: 1,
-      ward_id: 1,
-      full_address: 'Hòa Bình, Việt Nam',
-      description: 'rất đẹp',
-      images: [
-        {
-          id: 1,
-          url: 'https://i.pinimg.com/736x/aa/72/91/aa72913855f9e02a949a5c392b48299e.jpg',
-          caption: 'Pà Cò',
-          order: 1,
-        },
-        {
-          id: 2,
-          url: 'https://i.pinimg.com/736x/4e/2d/c2/4e2dc228e370f0bba046f289da0719f6.jpg',
-          caption: 'Pà Cò',
-          order: 2,
-        },
-        {
-          id: 3,
-          url: 'https://i.pinimg.com/736x/29/38/4e/29384e0b1c1adbbd307c712496cf961d.jpg',
-          caption: 'Pà Cò',
-          order: 3,
-        },
-      ],
-    },
-    {
-      id: 8,
-      name: 'Hòa Bình',
-      province_id: 1,
-      district_id: 1,
-      ward_id: 1,
-      full_address: 'Hòa Bình, Việt Nam',
-      description: 'rất đẹp',
-      images: [
-        {
-          id: 1,
-          url: 'https://i.pinimg.com/736x/aa/72/91/aa72913855f9e02a949a5c392b48299e.jpg',
-          caption: 'Pà Cò',
-          order: 1,
-        },
-        {
-          id: 2,
-          url: 'https://i.pinimg.com/736x/4e/2d/c2/4e2dc228e370f0bba046f289da0719f6.jpg',
-          caption: 'Pà Cò',
-          order: 2,
-        },
-        {
-          id: 3,
-          url: 'https://i.pinimg.com/736x/29/38/4e/29384e0b1c1adbbd307c712496cf961d.jpg',
-          caption: 'Pà Cò',
-          order: 3,
-        },
-      ],
-    },
-    {
-      id: 9,
-      name: 'Hòa Bình',
-      province_id: 1,
-      district_id: 1,
-      ward_id: 1,
-      full_address: 'Hòa Bình, Việt Nam',
-      description: 'rất đẹp',
-      images: [
-        {
-          id: 1,
-          url: 'https://i.pinimg.com/736x/aa/72/91/aa72913855f9e02a949a5c392b48299e.jpg',
-          caption: 'Pà Cò',
-          order: 1,
-        },
-        {
-          id: 2,
-          url: 'https://i.pinimg.com/736x/4e/2d/c2/4e2dc228e370f0bba046f289da0719f6.jpg',
-          caption: 'Pà Cò',
-          order: 2,
-        },
-        {
-          id: 3,
-          url: 'https://i.pinimg.com/736x/29/38/4e/29384e0b1c1adbbd307c712496cf961d.jpg',
-          caption: 'Pà Cò',
-          order: 3,
-        },
-      ],
-    },
-    {
-      id: 10,
-      name: 'Hòa Bình',
-      province_id: 1,
-      district_id: 1,
-      ward_id: 1,
-      full_address: 'Hòa Bình, Việt Nam',
-      description: 'rất đẹp',
-      images: [
-        {
-          id: 1,
-          url: 'https://i.pinimg.com/736x/aa/72/91/aa72913855f9e02a949a5c392b48299e.jpg',
-          caption: 'Pà Cò',
-          order: 1,
-        },
-        {
-          id: 2,
-          url: 'https://i.pinimg.com/736x/4e/2d/c2/4e2dc228e370f0bba046f289da0719f6.jpg',
-          caption: 'Pà Cò',
-          order: 2,
-        },
-        {
-          id: 3,
-          url: 'https://i.pinimg.com/736x/29/38/4e/29384e0b1c1adbbd307c712496cf961d.jpg',
-          caption: 'Pà Cò',
-          order: 3,
-        },
-      ],
-    },
-  ]
+  return listDestinations.value.filter((item: TransformedDestinationType) =>
+    item.name.includes(searchKeyword.value.trim()),
+  )
 })
-// const responsiveOptions = ref([
-//   {
-//     breakpoint: '1300px',
-//     numVisible: 4,
-//   },
-//   {
-//     breakpoint: '575px',
-//     numVisible: 1,
-//   },
-// ])
+
 const { data, error, loading, fetchData } = useAxios()
 const getListDestinations = async () => {
   await fetchData(URL_GET_DESTINATIONS, 'GET')
@@ -333,7 +32,8 @@ const getListDestinations = async () => {
     })
     return
   }
-  listDestinations.value = data.value?.data || []
+  listDestinations.value = transform(data.value?.data || [])
+  console.log('listDestinations.value', listDestinations.value)
 }
 
 onMounted(async () => {
@@ -399,27 +99,10 @@ onMounted(async () => {
         :key="destination.id"
       >
         <Card
-          class="!shadow-lg w-full sm:w-[calc(50%-0.5rem)] md:w-[calc(33.333%-0.5rem)] lg:w-[calc(25%-0.5rem)] min-w-sm"
+          class="!shadow-lg border border-solid border-gray-200 w-full sm:w-[calc(50%-0.5rem)] md:w-[calc(33.333%-0.5rem)] lg:w-[calc(25%-0.5rem)] min-w-sm"
         >
           <template #header>
-            <!-- <Galleria
-              :value="destination.images"
-              :responsiveOptions="responsiveOptions"
-              :numVisible="5"
-              containerStyle="max-width: 640px"
-            >
-              <template #item="slotProps">
-                <img
-                  :src="slotProps.item.url"
-                  :alt="slotProps.item.caption"
-                  style="width: 100%"
-                />
-              </template>
-              <template #thumbnail="slotProps">
-                <img :src="slotProps.item.url" :alt="slotProps.item.caption" />
-              </template>
-            </Galleria> -->
-            <img alt="" :src="destination.images[0].url" />
+            <img alt="" :src="destination.images[0]" class="max-h-48 w-full" />
           </template>
           <template #title>
             <router-link
@@ -432,18 +115,25 @@ onMounted(async () => {
           </template>
           <template #subtitle>{{ destination.full_address }}</template>
           <template #content>
-            <p class="m-0">
+            <div class="m-0 max-h-96 max-w-96 truncate">
               {{ destination.description }}
-            </p>
+            </div>
           </template>
           <template #footer>
             <div class="flex justify-center gap-4 mt-1">
-              <Button
-                icon="pi pi-eye"
-                aria-label="Detail"
-                severity="info"
-                variant="text"
-              />
+              <router-link
+                :to="`/destination/${destination.id}`"
+                type="button"
+                class="cursor-pointer text-sky-400 hover:text-sky-600 font-semibold"
+              >
+                <Button
+                  icon="pi pi-eye"
+                  aria-label="Detail"
+                  severity="info"
+                  variant="text"
+                />
+              </router-link>
+
               <Button
                 icon="pi pi-trash"
                 aria-label="Delete"
