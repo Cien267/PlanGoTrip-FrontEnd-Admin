@@ -17,7 +17,9 @@ export const URL_DELETE_VEHICLE = '/api/admin/vehicles/delete'
 // destinations
 export const URL_GET_DESTINATIONS = '/api/admin/destinations'
 export const URL_DETAIL_DESTINATION = '/api/admin/destinations/'
-export const URL_CREATE_DESTINATIONS = '/api/admin/destinations/create'
+export const URL_CREATE_DESTINATIONS = '/api/admin/destinations/'
+export const URL_DELETE_DESTINATION = '/api/admin/destinations/'
+export const URL_UPDATE_DESTINATION = '/api/admin/destinations/'
 
 // destination attraction categories
 export const URL_GET_ATTRACTION_CATEGORIES = '/api/admin/attraction-categories'

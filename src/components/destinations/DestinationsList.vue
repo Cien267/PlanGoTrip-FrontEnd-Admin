@@ -3,13 +3,15 @@ import InputText from 'primevue/inputtext'
 import EntireScreenLoader from '@/components/common/EntireScreenLoader.vue'
 import { ref, onMounted, computed } from 'vue'
 import { useAxios } from '@/composables/useAxios'
-import { URL_GET_DESTINATIONS } from '@/constants/url'
+import { URL_GET_DESTINATIONS, URL_DELETE_DESTINATION } from '@/constants/url'
 import { useToast } from 'primevue/usetoast'
 const toast = useToast()
 import type { TransformedDestinationType } from '@/types'
 import Card from 'primevue/card'
 import Button from 'primevue/button'
 import { transform } from '@/transformers/destination/listDestinationTransform'
+import ConfirmPopup from 'primevue/confirmpopup'
+import { useConfirm } from 'primevue/useconfirm'
 
 const searchKeyword = ref('')
 
@@ -39,8 +41,48 @@ const getListDestinations = async () => {
 onMounted(async () => {
   await getListDestinations()
 })
+
+// delete
+const confirm = useConfirm()
+const removeDestination = (
+  event: any,
+  destination: TransformedDestinationType,
+) => {
+  confirm.require({
+    target: event.currentTarget,
+    message: `Bạn có chắc chắn muốn xóa điểm đến ${destination.name} này?`,
+    icon: 'pi pi-exclamation-triangle',
+    rejectProps: {
+      label: 'Hủy',
+      severity: 'secondary',
+      outlined: true,
+    },
+    acceptProps: {
+      label: 'Xóa',
+      severity: 'danger',
+    },
+    accept: async () => {
+      await fetchData(`${URL_DELETE_DESTINATION}${destination.id}`, 'DELETE')
+      if (error.value) {
+        toast.add({
+          severity: 'error',
+          summary: `Có lỗi xảy ra khi xóa điểm đến ${destination.name}`,
+          life: 3000,
+        })
+        return
+      }
+      toast.add({
+        severity: 'success',
+        summary: `Xóa thành công điểm đến ${destination.name}`,
+        life: 3000,
+      })
+      getListDestinations()
+    },
+  })
+}
 </script>
 <template>
+  <ConfirmPopup></ConfirmPopup>
   <entire-screen-loader v-if="loading"></entire-screen-loader>
   <div class="flex flex-col justify-center items-center gap-10 p-10">
     <div class="flex flex-col items-center gap-4">
@@ -121,11 +163,7 @@ onMounted(async () => {
           </template>
           <template #footer>
             <div class="flex justify-center gap-4 mt-1">
-              <router-link
-                :to="`/destination/${destination.id}`"
-                type="button"
-                class="cursor-pointer text-sky-400 hover:text-sky-600 font-semibold"
-              >
+              <router-link :to="`/destination/${destination.id}`">
                 <Button
                   icon="pi pi-eye"
                   aria-label="Detail"
@@ -139,13 +177,16 @@ onMounted(async () => {
                 aria-label="Delete"
                 severity="danger"
                 variant="text"
+                @click="removeDestination($event, destination)"
               />
-              <Button
-                icon="pi pi-pen-to-square"
-                aria-label="Edit"
-                severity="warn"
-                variant="text"
-              />
+              <router-link :to="`/destination/edit/${destination.id}`">
+                <Button
+                  icon="pi pi-pen-to-square"
+                  aria-label="Edit"
+                  severity="warn"
+                  variant="text"
+                />
+              </router-link>
             </div>
           </template>
         </Card>

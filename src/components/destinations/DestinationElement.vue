@@ -14,7 +14,7 @@ import DestinationRestaurants from './restaurants/DestinationRestaurants.vue'
   <div
     class="w-full flex justify-center items-center create-destination-element"
   >
-    <Tabs value="0" class="w-full">
+    <Tabs value="attractions" class="w-full">
       <TabList>
         <Tab value="attractions" as="div" class="flex items-center gap-2">
           <Avatar image="/src/assets/images/circus.svg" shape="circle" />

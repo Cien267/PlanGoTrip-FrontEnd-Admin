@@ -41,6 +41,7 @@ const {
   addAccommodation,
   removeAccommodation,
   uploadFileAccommodation,
+  removeFileAccommodation,
 } = useCreateOrUpdateDestination()
 </script>
 
@@ -105,11 +106,9 @@ const {
         </div>
         <div class="flex items-center gap-1 mb-2 w-full">
           <label for="phone" class="font-semibold w-[28%]">Số điện thoại</label>
-          <InputNumber
+          <InputText
             id="phone"
             class="flex-auto w-[72%]"
-            inputId="withoutgrouping"
-            :useGrouping="false"
             placeholder="Nhập sđt"
             v-model="accommodation.phone"
           />
@@ -236,6 +235,12 @@ const {
         <div class="flex items-center gap-1 mb-2 w-full upload-multiple-images">
           <label for="image" class="font-semibold w-[28%]">Ảnh</label>
           <CustomFileUpload
+            :uploaded-images="
+              accommodation.images.map((image: any) => image.image_url)
+            "
+            @remove-image="
+              image => removeFileAccommodation(image, accommodation.uuid)
+            "
             @upload-file="
               files => uploadFileAccommodation(files, accommodation.uuid)
             "

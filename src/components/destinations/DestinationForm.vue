@@ -8,7 +8,7 @@ import { ref } from 'vue'
 import CustomFileUpload from '../common/CustomFileUpload.vue'
 import { useCreateOrUpdateDestination } from '@/composables/useCreateOrUpdateDestination'
 
-const { dataDestination, uploadFileDestination } =
+const { dataDestination, uploadFileDestination, removeFileDestination } =
   useCreateOrUpdateDestination()
 
 const selectedLocation = ref(null)
@@ -115,7 +115,11 @@ const wards = ref([])
           class="flex justify-center items-center w-1/2 upload-multiple-images"
         >
           <CustomFileUpload
+            :uploaded-images="
+              dataDestination.images.map(image => image.image_url)
+            "
             @upload-file="uploadFileDestination"
+            @remove-image="removeFileDestination"
           ></CustomFileUpload>
         </div>
       </div>

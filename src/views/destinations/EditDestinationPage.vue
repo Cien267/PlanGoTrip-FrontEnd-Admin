@@ -1,28 +1,22 @@
 <script setup lang="ts">
+import { onMounted } from 'vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import DestinationForm from '@/components/destinations/DestinationForm.vue'
 import DestinationElement from '@/components/destinations/DestinationElement.vue'
-import { provide, ref } from 'vue'
 import Button from 'primevue/button'
 import Divider from 'primevue/divider'
 import { useCreateOrUpdateDestination } from '@/composables/useCreateOrUpdateDestination'
 import { transform } from '@/transformers/destination/createDestinationTransform'
 import { useAxios } from '@/composables/useAxios'
-import { URL_CREATE_DESTINATIONS } from '@/constants/url'
+import { URL_UPDATE_DESTINATION, URL_DETAIL_DESTINATION } from '@/constants/url'
 import { useToast } from 'primevue/usetoast'
 const toast = useToast()
 import EntireScreenLoader from '@/components/common/EntireScreenLoader.vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import { ROUTER_NAME_LIST } from '@/constants/routers'
 
 const router = useRouter()
-
-const refetchingFlag = ref(false)
-const switchRefetchingFlag = () => {
-  refetchingFlag.value = !refetchingFlag.value
-}
-provide('refetchingFlag', refetchingFlag)
-provide('switchRefetchingFlag', switchRefetchingFlag)
+const route = useRoute()
 
 // handle submit
 const {
@@ -31,13 +25,39 @@ const {
   accommodationsList,
   restaurantsList,
   resetData,
+  setupData,
 } = useCreateOrUpdateDestination()
 resetData()
 
-const { loading, error, fetchData } = useAxios()
-const submitCreateDestination = async () => {
-  console.log('dataDestination', dataDestination)
-  debugger
+const { loading, error, fetchData, data } = useAxios()
+
+onMounted(async () => {
+  const desId = route.params.id || 0
+  if (desId) {
+    try {
+      await fetchData(`${URL_DETAIL_DESTINATION}${desId}`, 'GET')
+      if (error.value) {
+        console.error(error)
+        toast.add({
+          severity: 'error',
+          summary: 'Có lỗi xảy ra khi lấy thông tin chi tiết destination',
+          life: 3000,
+        })
+        return
+      }
+      setupData(data.value.data ?? {})
+    } catch (e: any) {
+      console.error(e)
+      toast.add({
+        severity: 'error',
+        summary: 'Có lỗi xảy ra',
+        life: 3000,
+      })
+    }
+  }
+})
+
+const submitUpdateDestination = async () => {
   const dataRequest = transform(
     dataDestination,
     attractionsList.value,
@@ -45,13 +65,17 @@ const submitCreateDestination = async () => {
     restaurantsList.value,
   )
   try {
-    await fetchData(URL_CREATE_DESTINATIONS, 'POST', dataRequest)
+    await fetchData(
+      `${URL_UPDATE_DESTINATION}${dataDestination.id}`,
+      'PUT',
+      dataRequest,
+    )
 
     if (error.value) {
       console.error(error.value)
       toast.add({
         severity: 'error',
-        summary: 'Có lỗi xảy ra khi tạo điểm đến',
+        summary: 'Có lỗi xảy ra khi cập nhật điểm đến',
         life: 3000,
       })
       return
@@ -59,7 +83,7 @@ const submitCreateDestination = async () => {
 
     toast.add({
       severity: 'success',
-      summary: 'Tạo điểm đến thành công',
+      summary: 'Cập nhật điểm đến thành công',
       life: 3000,
     })
     router.push({ name: ROUTER_NAME_LIST.LIST_DESTINATION_PAGE })
@@ -67,7 +91,7 @@ const submitCreateDestination = async () => {
     console.error(e)
     toast.add({
       severity: 'error',
-      summary: 'Có lỗi xảy ra khi tạo điểm đến',
+      summary: 'Có lỗi xảy ra khi cập nhật điểm đến',
       life: 3000,
     })
   }
@@ -84,9 +108,9 @@ const submitCreateDestination = async () => {
     </div>
     <Teleport to="body">
       <Button
-        icon="pi pi-save"
-        label="Lưu"
-        @click="submitCreateDestination"
+        icon="pi pi-pencil"
+        label="Cập nhật"
+        @click="submitUpdateDestination"
         severity="success"
         class="!fixed bottom-10 right-10"
         size="large"

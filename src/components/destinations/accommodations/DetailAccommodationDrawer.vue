@@ -40,7 +40,7 @@ const responsiveOptions = ref([
           ><i class="pi pi-map-marker pr-2"></i
           >{{ accommodation.address }}</span
         >
-        <span>
+        <span class="flex items-center gap-2 py-2">
           <img
             :src="accommodation.category.image"
             alt=""

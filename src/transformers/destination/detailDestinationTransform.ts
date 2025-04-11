@@ -77,28 +77,28 @@ export const transform = (destination: DetailDestinationType) => {
       // attraction
       if (child.key === '0_0') {
         child.children = destination.attractions.map(
-          (attr: DetailAttractionType) => {
+          (att: DetailAttractionType) => {
             return {
-              id: attr.id ?? 0,
-              name: attr.name ?? '',
+              id: att.id ?? 0,
+              name: att.name ?? '',
               category: {
-                name: attr.attraction_category?.name ?? '',
-                image: attr.attraction_category?.image ?? '',
+                name: att.category?.name ?? '',
+                image: att.category?.image ?? '',
               },
-              description: attr.description ?? '',
-              address: attr.address ?? '',
-              estimated_duration: attr.estimated_duration ?? '',
-              opening_hours: attr.opening_hours ?? '',
-              created_at: dayjs(attr.created_at ?? '').format(
+              description: att.description ?? '',
+              address: att.address ?? '',
+              estimated_duration: att.estimated_duration ?? '',
+              opening_hours: att.opening_hours ?? '',
+              created_at: dayjs(att.created_at ?? '').format(
                 'DD/MM/YYYY HH:mm',
               ),
-              updated_at: dayjs(attr.updated_at ?? '').format(
+              updated_at: dayjs(att.updated_at ?? '').format(
                 'DD/MM/YYYY HH:mm',
               ),
-              phone_number: attr.phone_number ?? '',
-              price_range: attr.price_range ?? '',
-              website_url: attr.website_url ?? '',
-              images: attr.images.map((image: ImageAttractionType) => {
+              phone_number: att.phone_number ?? '',
+              price_range: att.price_range ?? '',
+              website_url: att.website_url ?? '',
+              images: att.images.map((image: ImageAttractionType) => {
                 return image.image_url ?? ''
               }),
 
@@ -115,8 +115,8 @@ export const transform = (destination: DetailDestinationType) => {
               id: acc.id ?? 0,
               name: acc.name ?? '',
               category: {
-                name: acc.accommodation_category?.name ?? '',
-                image: acc.accommodation_category?.image ?? '',
+                name: acc.category?.name ?? '',
+                image: acc.category?.image ?? '',
               },
               description: acc.description ?? '',
               address: acc.address ?? '',
@@ -151,8 +151,8 @@ export const transform = (destination: DetailDestinationType) => {
               id: res.id ?? 0,
               name: res.name ?? '',
               category: {
-                name: res.restaurant_category?.name ?? '',
-                image: res.restaurant_category?.image ?? '',
+                name: res.category?.name ?? '',
+                image: res.category?.image ?? '',
               },
               description: res.description ?? '',
               address: res.address ?? '',

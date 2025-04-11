@@ -72,15 +72,14 @@ type DetailRestaurantType = {
   destination_id: number
   name: string
   price_range: string
-  rating: string
+  rating: number
   description: string
   created_at: string
   updated_at: string
   address: string
   phone_number: string
   website_url: string
-  restaurant_category_id: number
-  restaurant_category: ElementCategoryType
+  category: ElementCategoryType
   opening_hours: string
   menu: string
   images: ImageRestaurantType[]
@@ -97,6 +96,7 @@ type ImageAttractionType = {
 }
 
 type ElementCategoryType = {
+  id: number
   name: string
   code: string
   description: string
@@ -104,11 +104,10 @@ type ElementCategoryType = {
 }
 
 type DetailAttractionType = {
-  id: number
-  destination_id: number
+  id?: number
+  destination_id?: number
   name: string
-  attraction_category_id: number
-  attraction_category: ElementCategoryType
+  category: ElementCategoryType
   description: string
   address: string
   estimated_duration: number
@@ -135,8 +134,7 @@ type DetailAccommodationType = {
   id: number
   destination_id: number
   name: string
-  accommodation_category_id: number
-  accommodation_category: ElementCategoryType
+  category: ElementCategoryType
   price_per_night: number
   rating: number
   amenities: string
@@ -177,41 +175,41 @@ type AttractionType = {
   uuid: string
   name: string
   selectedAttractionCategory: DestinationAttractionCategoryType
-  phone: number
+  phone: string
   description: string
   address: string
   openingHour: number
   closingHour: number
   estimatedDuration: number
-  selectedOpeningPeriod: {
+  selectedOpeningPeriod?: {
     name: string
     value: string
   }
-  selectedClosingPeriod: {
+  selectedClosingPeriod?: {
     name: string
     value: string
   }
   startPriceRange: number
   endPriceRange: number
   websiteUrl: string
-  images: string[]
+  images: ImageAttractionType[] | string[]
 }
 
 type AccommodationType = {
   uuid: string
   name: string
   selectedAccommodationCategory: DestinationAccommodationCategoryType
-  phone: number
+  phone: string
   description: string
   address: string
   rooms: number
   checkInTime: number
   checkOutTime: number
-  checkInPeriod: {
+  checkInPeriod?: {
     name: string
     value: string
   }
-  checkOutPeriod: {
+  checkOutPeriod?: {
     name: string
     value: string
   }
@@ -219,23 +217,23 @@ type AccommodationType = {
   rating: number
   websiteUrl: string
   amenities: string
-  images: string[]
+  images: ImageAccommodationType[] | string[]
 }
 
 type RestaurantType = {
   uuid: string
   name: string
   selectedRestaurantCategory: DestinationRestaurantCategoryType
-  phone: number
+  phone: string
   description: string
   address: string
   openingTime: number
   closingTime: number
-  openingPeriod: {
+  openingPeriod?: {
     name: string
     value: string
   }
-  closingPeriod: {
+  closingPeriod?: {
     name: string
     value: string
   }
@@ -244,7 +242,7 @@ type RestaurantType = {
   rating: number
   websiteUrl: string
   menu: string
-  images: string[]
+  images: ImageRestaurantType[] | string[]
 }
 
 type DestinationAttractionCategoryType = {

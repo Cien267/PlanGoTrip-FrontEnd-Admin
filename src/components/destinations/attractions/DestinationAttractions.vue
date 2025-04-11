@@ -41,6 +41,7 @@ const {
   addAttraction,
   removeAttraction,
   uploadFileAttraction,
+  removeFileAttraction,
 } = useCreateOrUpdateDestination()
 </script>
 
@@ -105,11 +106,9 @@ const {
         </div>
         <div class="flex items-center gap-1 mb-2 w-full">
           <label for="phone" class="font-semibold w-[28%]">Số điện thoại</label>
-          <InputNumber
+          <InputText
             id="phone"
             class="flex-auto w-[72%]"
-            inputId="withoutgrouping"
-            :useGrouping="false"
             placeholder="Nhập sđt"
             v-model="attraction.phone"
           />
@@ -229,6 +228,12 @@ const {
         <div class="flex items-center gap-1 mb-2 w-full upload-multiple-images">
           <label for="image" class="font-semibold w-[28%]">Ảnh</label>
           <CustomFileUpload
+            :uploaded-images="
+              attraction.images.map((image: any) => image.image_url)
+            "
+            @remove-image="
+              image => removeFileAttraction(image, attraction.uuid)
+            "
             @upload-file="files => uploadFileAttraction(files, attraction.uuid)"
           ></CustomFileUpload>
         </div>

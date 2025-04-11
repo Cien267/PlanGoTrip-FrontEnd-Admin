@@ -8,6 +8,7 @@ import UserPage from '@/views/UserPage.vue'
 import VehiclePage from '@/views/VehiclePage.vue'
 import DestinationPage from '@/views/destinations/DestinationPage.vue'
 import DetailDestinationPage from '@/views/destinations/DetailDestinationPage.vue'
+import EditDestinationPage from '@/views/destinations/EditDestinationPage.vue'
 import CreateDestinationPage from '@/views/destinations/CreateDestinationPage.vue'
 import AttractionCategoriesPage from '@/views/destinations/AttractionCategoriesPage.vue'
 import AccommodationCategoriesPage from '@/views/destinations/AccommodationCategoriesPage.vue'
@@ -75,6 +76,12 @@ const router = createRouter({
       path: '/destinations/create',
       name: ROUTER_NAME_LIST.CREATE_DESTINATION_PAGE,
       component: CreateDestinationPage,
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/destination/edit/:id',
+      name: ROUTER_NAME_LIST.EDIT_DESTINATION_PAGE,
+      component: EditDestinationPage,
       meta: { requiresAuth: true },
     },
     {

@@ -39,7 +39,7 @@ const responsiveOptions = ref([
         <span class="text-gray-800 font-bold text-md"
           ><i class="pi pi-map-marker pr-2"></i>{{ restaurant.address }}</span
         >
-        <span>
+        <span class="flex items-center gap-2 py-2">
           <img
             :src="restaurant.category.image"
             alt=""

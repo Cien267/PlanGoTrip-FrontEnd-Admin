@@ -3,6 +3,10 @@ import type {
   AttractionType,
   AccommodationType,
   RestaurantType,
+  ImageAttractionType,
+  ImageAccommodationType,
+  ImageRestaurantType,
+  ImageDestinationType,
 } from '@/types'
 
 export const transform = (
@@ -26,10 +30,10 @@ export const transform = (
       dataRequest.destination.ward_id = dataDestination.ward_id ?? 0
       dataRequest.destination.full_address = dataDestination.full_address ?? 0
       dataRequest.destination.description = dataDestination.description ?? ''
-      dataRequest.destination.images = (dataDestination.images as any).map(
-        (item: string, index: number) => {
+      dataRequest.destination.images = dataDestination.images.map(
+        (item: string | ImageDestinationType, index: number) => {
           return {
-            image_url: item,
+            image_url: (item as ImageDestinationType).image_url ?? item,
             caption: '',
             order: index,
           }
@@ -39,7 +43,7 @@ export const transform = (
 
     if (attractionsList) {
       attractionsList.forEach((element: AttractionType) => {
-        const openingHours = `${element.openingHour ?? 0}${element.selectedOpeningPeriod.name} - ${element.closingHour ?? 0}${element.selectedClosingPeriod.name}`
+        const openingHours = `${element.openingHour ?? 0}${element.selectedOpeningPeriod?.name} - ${element.closingHour ?? 0}${element.selectedClosingPeriod?.name}`
         const priceRange = `${element.startPriceRange ?? ''} đồng - ${element.endPriceRange ?? ''} đồng`
         const attraction = {
           name: element.name ?? '',
@@ -51,13 +55,15 @@ export const transform = (
           estimated_duration: element.estimatedDuration ?? 0,
           price_range: priceRange,
           website_url: element.websiteUrl ?? '',
-          images: element.images.map((item: string, index: number) => {
-            return {
-              image_url: item,
-              caption: '',
-              order: index,
-            }
-          }),
+          images: element.images.map(
+            (item: string | ImageAttractionType, index: number) => {
+              return {
+                image_url: (item as ImageAttractionType).image_url ?? item,
+                caption: '',
+                order: index,
+              }
+            },
+          ),
         }
         dataRequest.attractions.push(attraction)
       })
@@ -74,18 +80,20 @@ export const transform = (
           phone_number: element.phone ?? '',
           website_url: element.websiteUrl ?? '',
           available_rooms: element.rooms ?? 0,
-          check_in_time: `${element.checkInTime}${element.checkInPeriod.name}`,
-          check_out_time: `${element.checkOutTime}${element.checkOutPeriod.name}`,
+          check_in_time: `${element.checkInTime}${element.checkInPeriod?.name}`,
+          check_out_time: `${element.checkOutTime}${element.checkOutPeriod?.name}`,
           price_per_night: element.pricePerNight ?? 0,
           rating: element.rating ?? 0,
           amenities: element.amenities ?? '',
-          images: element.images.map((item: string, index: number) => {
-            return {
-              image_url: item,
-              caption: '',
-              order: index,
-            }
-          }),
+          images: element.images.map(
+            (item: string | ImageAccommodationType, index: number) => {
+              return {
+                image_url: (item as ImageAccommodationType).image_url ?? item,
+                caption: '',
+                order: index,
+              }
+            },
+          ),
         }
         dataRequest.accommodations.push(accommodation)
       })
@@ -93,7 +101,7 @@ export const transform = (
     if (restaurantsList) {
       restaurantsList.forEach((element: RestaurantType) => {
         const priceRange = `${element.startPriceRange ?? ''} đồng - ${element.endPriceRange ?? ''} đồng`
-        const openingHours = `${element.openingTime ?? 0}${element.openingPeriod.name} - ${element.closingTime ?? 0}${element.closingPeriod.name}`
+        const openingHours = `${element.openingTime ?? 0}${element.openingPeriod?.name} - ${element.closingTime ?? 0}${element.closingPeriod?.name}`
         const restaurant = {
           name: element.name ?? '',
           restaurant_category_id: element.selectedRestaurantCategory?.id ?? 0,
@@ -105,13 +113,15 @@ export const transform = (
           price_range: priceRange,
           opening_hours: openingHours,
           menu: element.menu ?? '',
-          images: element.images.map((item: string, index: number) => {
-            return {
-              image_url: item,
-              caption: '',
-              order: index,
-            }
-          }),
+          images: element.images.map(
+            (item: string | ImageRestaurantType, index: number) => {
+              return {
+                image_url: (item as ImageRestaurantType).image_url ?? item,
+                caption: '',
+                order: index,
+              }
+            },
+          ),
         }
         dataRequest.restaurants.push(restaurant)
       })
