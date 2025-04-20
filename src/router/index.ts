@@ -13,6 +13,7 @@ import CreateDestinationPage from '@/views/destinations/CreateDestinationPage.vu
 import AttractionCategoriesPage from '@/views/destinations/AttractionCategoriesPage.vue'
 import AccommodationCategoriesPage from '@/views/destinations/AccommodationCategoriesPage.vue'
 import RestaurantCategoriesPage from '@/views/destinations/RestaurantCategoriesPage.vue'
+import ItinerariesPage from '@/views/itineraries/ItinerariesPage.vue'
 
 const { token } = useAuth()
 
@@ -73,15 +74,15 @@ const router = createRouter({
       meta: { requiresAuth: true },
     },
     {
-      path: '/destinations/create',
-      name: ROUTER_NAME_LIST.CREATE_DESTINATION_PAGE,
-      component: CreateDestinationPage,
-      meta: { requiresAuth: true },
-    },
-    {
       path: '/destination/edit/:id',
       name: ROUTER_NAME_LIST.EDIT_DESTINATION_PAGE,
       component: EditDestinationPage,
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/itineraries',
+      name: ROUTER_NAME_LIST.LIST_ITINERARY_PAGE,
+      component: ItinerariesPage,
       meta: { requiresAuth: true },
     },
     {

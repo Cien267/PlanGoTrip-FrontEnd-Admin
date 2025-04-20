@@ -144,7 +144,11 @@ const removeDestination = (
           class="!shadow-lg border border-solid border-gray-200 w-full sm:w-[calc(50%-0.5rem)] md:w-[calc(33.333%-0.5rem)] lg:w-[calc(25%-0.5rem)] min-w-sm"
         >
           <template #header>
-            <img alt="" :src="destination.images[0]" class="max-h-48 w-full" />
+            <img
+              alt=""
+              :src="destination.images[0]"
+              class="max-h-48 w-full object-scale-down"
+            />
           </template>
           <template #title>
             <router-link

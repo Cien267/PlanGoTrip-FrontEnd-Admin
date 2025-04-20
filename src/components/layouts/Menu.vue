@@ -14,6 +14,13 @@ const items = ref([
     },
   },
   {
+    label: 'Lịch trình',
+    class: 'pi pi-compass',
+    command: () => {
+      router.push({ name: ROUTER_NAME_LIST.LIST_ITINERARY_PAGE })
+    },
+  },
+  {
     label: 'Quản lý phương tiện',
     class: 'pi pi-car',
     command: () => {
