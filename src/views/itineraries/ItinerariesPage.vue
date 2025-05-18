@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
+import ItinerariesList from '@/components/itineraries/ItinerariesList.vue'
 import { provide, ref } from 'vue'
 
 const refetchingFlag = ref(false)
@@ -12,7 +13,7 @@ provide('switchRefetchingFlag', switchRefetchingFlag)
 
 <template>
   <DefaultLayout>
-    keke
+    <ItinerariesList></ItinerariesList>
     <router-view></router-view>
   </DefaultLayout>
 </template>
