@@ -130,13 +130,15 @@ const listItineraries = ref([
     <div class="flex-1 p-6 overflow-y-auto">
       <div class="max-w-7xl mx-auto">
         <div class="w-full flex justify-end">
-          <Button
-            icon="pi pi-plus"
-            severity="primary"
-            size="small"
-            class="p-2 mb-8"
-            label="Thêm lịch trình"
-          ></Button>
+          <router-link to="/itineraries/create" type="button">
+            <Button
+              icon="pi pi-plus"
+              severity="primary"
+              size="small"
+              class="p-2 mb-8"
+              label="Thêm lịch trình"
+            ></Button>
+          </router-link>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           <div

@@ -269,6 +269,26 @@ type DestinationRestaurantCategoryType = {
   image: string
 }
 
+type ActivityType = {
+  uuid: string
+  version?: number
+  name: string
+  dayNumber: number
+  position?: number
+  timeSlot: {
+    name: string
+    code: string
+  }
+  startTime: any
+  endTime: any
+  location: string
+  mapLink: string
+  description: string
+  note: string
+  activityId: number | null
+  activityType: string
+}
+
 export type {
   DataLoginType,
   HttpMethodType,
@@ -291,4 +311,5 @@ export type {
   ImageAccommodationType,
   DetailAccommodationType,
   DetailDestinationType,
+  ActivityType,
 }
