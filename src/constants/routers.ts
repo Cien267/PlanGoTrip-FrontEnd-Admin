@@ -12,4 +12,5 @@ export const ROUTER_NAME_LIST = {
   ACCOMMODATION_CATEGORIES_PAGE: 'accommodation-categories',
   RESTAURANT_CATEGORIES_PAGE: 'restaurant-categories',
   LIST_ITINERARY_PAGE: 'list-itinerary',
+  CREATE_ITINERARY_PAGE: 'create-itinerary',
 }

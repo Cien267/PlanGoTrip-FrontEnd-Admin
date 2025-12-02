@@ -14,6 +14,7 @@ import AttractionCategoriesPage from '@/views/destinations/AttractionCategoriesP
 import AccommodationCategoriesPage from '@/views/destinations/AccommodationCategoriesPage.vue'
 import RestaurantCategoriesPage from '@/views/destinations/RestaurantCategoriesPage.vue'
 import ItinerariesPage from '@/views/itineraries/ItinerariesPage.vue'
+import CreateItineraryPage from '@/views/itineraries/CreateItineraryPage.vue'
 
 const { token } = useAuth()
 
@@ -81,9 +82,19 @@ const router = createRouter({
     },
     {
       path: '/itineraries',
-      name: ROUTER_NAME_LIST.LIST_ITINERARY_PAGE,
-      component: ItinerariesPage,
       meta: { requiresAuth: true },
+      children: [
+        {
+          path: 'list',
+          name: ROUTER_NAME_LIST.LIST_ITINERARY_PAGE,
+          component: ItinerariesPage,
+        },
+        {
+          path: 'create',
+          name: ROUTER_NAME_LIST.CREATE_ITINERARY_PAGE,
+          component: CreateItineraryPage,
+        },
+      ],
     },
     {
       path: '/vehicles',
