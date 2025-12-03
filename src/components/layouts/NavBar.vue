@@ -9,6 +9,8 @@ import { useRoute } from 'vue-router'
 import { ROUTER_NAME_LIST } from '@/constants/routers'
 import { useToast } from 'primevue/usetoast'
 import Toast from 'primevue/toast'
+import Image from 'primevue/image'
+import Tag from 'primevue/tag'
 
 const { error, loading, logout } = useAuth()
 const router = useRouter()
@@ -51,10 +53,20 @@ const navigateToHomePage = () => {
 <template>
   <entire-screen-loader v-if="loading"></entire-screen-loader>
   <Toast position="bottom-right" />
-  <Menubar :model="[]" class="navbar-header-menu">
+  <Menubar :model="[]" class="navbar-header-menu shadow-lg">
     <template #start>
-      <i class="pi pi-home px-2 cursor-pointer" @click="navigateToHomePage"></i>
-      <span class="text-sm font-medium">{{ route.name }}</span>
+      <Image
+        src="../../src/assets/images/logo-rmbg.png"
+        alt="logo"
+        width="40"
+        class="cursor-pointer"
+        @click="navigateToHomePage"
+      ></Image>
+      <span
+        v-if="route.name !== ROUTER_NAME_LIST.HOME_PAGE"
+        class="mx-2 flex gap-1"
+        ><i class="pi pi-home"></i><i class="pi pi-angle-right"></i></span
+      ><Tag severity="secondary" :value="route.name"></Tag>
     </template>
     <template #end>
       <theme-switch class="!px-4 inline-block"></theme-switch>
@@ -63,6 +75,9 @@ const navigateToHomePage = () => {
   </Menubar>
 </template>
 <style>
+.navbar-header-menu {
+  padding: 6px 10px !important;
+}
 .navbar-header-menu .p-menubar-submenu {
   right: 0;
   min-width: 8rem;
